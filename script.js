@@ -1,6 +1,3 @@
-
-
-
 //****Event Listeners****
 
 $(document).on('blur', '.output-title', editCardTitle);
@@ -33,14 +30,14 @@ function Card(params) {
 
 function createIdeaCard(event) {
   event.preventDefault();
-  var title = $('.input-title').val();
-  var body = $('.input-body').val();
+  var title = $('.user-title').val();
+  var body = $('.user-body').val();
   var theIdea = new Card({title, body});
-  $('.bottom-container').prepend(ideaCardTemplate(theIdea));
+  $('main').prepend(ideaCardTemplate(theIdea));
   Card.create(theIdea);
-  $('.input-title').val("");
-  $('.input-body').val("");
-  $('.input-title').focus();
+  $('.user-title').val("");
+  $('.user-body').val("");
+  $('.user-title').focus();
   $('.save-button').attr("disabled", true);
 };
 
@@ -49,7 +46,7 @@ Card.create = function(card) {
 };
 
 function ideaCardTemplate(idea) {
-  $('.bottom-container').prepend(
+  $('main').prepend(
       `
         <article id=${idea.id}>
           <h2 contenteditable=true class="card-title">${idea.title}</h2>
@@ -66,7 +63,7 @@ function ideaCardTemplate(idea) {
 function renderCards(cards = []) {
   for ( var i = 0; i < cards.length; i++) {
     var card = cards[i];
-    $('.bottom-container').append(ideaCardTemplate(card));
+    $('main').append(ideaCardTemplate(card));
   }
 };
 
@@ -76,7 +73,7 @@ function clearAllIdeas(event) {
   if (allArticles.length !== 0){
     allArticles.remove();
     localStorage.clear();
-    $('.input-title').focus();
+    $('.user-title').focus();
   }
 };
 
@@ -126,7 +123,7 @@ Card.prototype.getQuality = function() {
 
 Card.prototype.incrementQuality = function() {
   var qualityArray = ['swill', 'plausible', 'genius'];
-  
+
   if (this.qualityIndex !== qualityArray.length - 1) {
     this.qualityIndex += 1;
   }
@@ -180,7 +177,7 @@ function searchIdeas() {
   } else {
     results = Card.findAll();
   }
-    $('.bottom-container').empty();
+    $('main').empty();
     renderCards(results)
 };
 

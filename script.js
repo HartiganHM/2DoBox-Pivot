@@ -1,12 +1,5 @@
-//****Global Variables****
-var inputTitle = $('.user-title');
-var inputBody = $('.user-body');
-var cardTitle = $('.card-title');
-var cardBody = $('.card-body');
 
 
-
-var qualityArray = ['swill', 'plausible', 'genius'];
 
 //****Event Listeners****
 
@@ -14,7 +7,8 @@ $(document).on('blur', '.output-title', editCardTitle);
 $(document).on('blur', '.output-body', editCardBody);
 $('.clear-all-button').on('click', clearAllIdeas);
 $('.save-button').on('click', createIdeaCard);
-(inputTitle, inputBody).on('keyup', enableSaveButton);
+
+$('.user-title, .user-body').on('keyup', enableSaveButton);
 $('.search').on('keyup', searchIdeas);
 $('main').on('click', '.delete', deleteIdeaCard);
 $('main').on('click', '.up-vote', voteUp);
@@ -23,7 +17,7 @@ $('main').on('click', '.down-vote', voteDown);
 //****Functions****
 
 function enableSaveButton() {
-  if(inputTitle.val() !== "" && inputBody.val() !== "") {
+  if($('.user-title').val() !== "" && $('.user-body').val() !== "") {
     $('.save-button').removeAttr('disabled');
   } else {
     $('.save-button').attr('disabled', true)
@@ -125,10 +119,14 @@ function voteDown(event) {
 };
 
 Card.prototype.getQuality = function() {
+  var qualityArray = ['swill', 'plausible', 'genius'];
+
   return qualityArray[this.qualityIndex];
 };
 
 Card.prototype.incrementQuality = function() {
+  var qualityArray = ['swill', 'plausible', 'genius'];
+  
   if (this.qualityIndex !== qualityArray.length - 1) {
     this.qualityIndex += 1;
   }

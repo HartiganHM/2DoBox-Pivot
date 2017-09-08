@@ -1,34 +1,26 @@
-//****Global Variables****
 
-var saveButton = $('.save-button');
-var clearAllButton = $('.clear-all-button');
-var bottomContainer = $('.bottom-container');
-var searchEngine = $('.search-engine');
-var inputTitle = $('.input-title');
-var inputBody = $('.input-body');
-var cardTitle = $('.output-title');
-var cardBody = $('.output-body');
-var qualityArray = ['swill', 'plausible', 'genius']
+
 
 //****Event Listeners****
 
 $(document).on('blur', '.output-title', editCardTitle);
 $(document).on('blur', '.output-body', editCardBody);
-clearAllButton.on('click', clearAllIdeas);
-saveButton.on('click', createIdeaCard);
-(inputTitle, inputBody).on('keyup', enableSaveButton);
-searchEngine.on('keyup', searchIdeas);
-bottomContainer.on('click', '.delete', deleteIdeaCard);
-bottomContainer.on('click', '.up-vote', voteUp);
-bottomContainer.on('click', '.down-vote', voteDown);
+$('.clear-all-button').on('click', clearAllIdeas);
+$('.save-button').on('click', createIdeaCard);
+
+$('.user-title, .user-body').on('keyup', enableSaveButton);
+$('.search').on('keyup', searchIdeas);
+$('main').on('click', '.delete', deleteIdeaCard);
+$('main').on('click', '.up-vote', voteUp);
+$('main').on('click', '.down-vote', voteDown);
 
 //****Functions****
 
 function enableSaveButton() {
-  if(inputTitle.val() !== "" && inputBody.val() !== "") {
-    saveButton.removeAttr('disabled');
+  if($('.user-title').val() !== "" && $('.user-body').val() !== "") {
+    $('.save-button').removeAttr('disabled');
   } else {
-    saveButton.attr('disabled', true)
+    $('.save-button').attr('disabled', true)
   }
 };
 
@@ -49,7 +41,7 @@ function createIdeaCard(event) {
   $('.input-title').val("");
   $('.input-body').val("");
   $('.input-title').focus();
-  saveButton.attr("disabled", true);
+  $('.save-button').attr("disabled", true);
 };
 
 Card.create = function(card) {
@@ -60,9 +52,9 @@ function ideaCardTemplate(idea) {
   $('.bottom-container').prepend(
       `
         <article id=${idea.id}>
-          <h2 contenteditable=true class="output-title">${idea.title}</h2>
+          <h2 contenteditable=true class="card-title">${idea.title}</h2>
           <button class="delete"></button>
-          <p contenteditable=true class="output-body">${idea.body}</p>
+          <p contenteditable=true class="card-body">${idea.body}</p>
           <button class="up-vote"></button>
           <button class="down-vote"></button>
           <p class="quality">quality: </p><p class="level">${idea.getQuality()}</p>
@@ -127,10 +119,14 @@ function voteDown(event) {
 };
 
 Card.prototype.getQuality = function() {
+  var qualityArray = ['swill', 'plausible', 'genius'];
+
   return qualityArray[this.qualityIndex];
 };
 
 Card.prototype.incrementQuality = function() {
+  var qualityArray = ['swill', 'plausible', 'genius'];
+  
   if (this.qualityIndex !== qualityArray.length - 1) {
     this.qualityIndex += 1;
   }
@@ -171,7 +167,7 @@ Card.findAll = function() {
 };
 
 function searchIdeas() {
-  var searchEngineValue = searchEngine.val();
+  var searchEngineValue = $('.search').val();
   var results
   if (searchEngineValue !== "") {
     var cards = Card.findAll();

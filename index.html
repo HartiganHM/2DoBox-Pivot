@@ -3,22 +3,38 @@
   <head>
     <title>Idea Box</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:700" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
   </head>
+
   <body>
-    <section class="top-container">
-       <h1 class="title">idea<span class="title-box-styling">box</span></h1>
+    <header>
+       <h1>idea<span class="accent-color">box</span></h1>
         <form>
-          <input type="text" class="input-title" placeholder="Title">
-          <textarea type="text" class="input-body" placeholder="Body"></textarea>
+          <input type="text" class="card-title" placeholder="Title">
+          <textarea type="text" class="card-body" placeholder="Body"></textarea>
           <button class="save-button" disabled />save</button>
         </form>
-    </section>
-  <input class="search-engine" placeholder="Search">
-  <button class="clear-all-button">clear all ideas</button>
-    <section class="bottom-container">
-    </section>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script type="text/javascript" src="script.js"></script>
+    </header>
+
+    <input class="search" placeholder="Search">
+    <button class="clear-all-button">clear all ideas</button>
+
+    <main class="bottom-container">
+    </main>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="jquery.min.js"><\/script>')</script>
+    <script type="text/javascript" src="script.js"></script>
   </body>
 </html>
+
+
+<!-- changed section .top-container to header -->
+<!-- took away class .title from h1 -->
+<!-- changed class .title-box-styling to .accent-color -->
+<!-- changed input-title to card-title -->
+<!-- changed input-body to card-body -->
+<!-- changed search-engine to search -->
+<!-- changed section .bottom-container to main -->
+<!-- add in local jquery file -->

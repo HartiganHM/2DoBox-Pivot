@@ -31,16 +31,24 @@ function createIdeaCard(event) {
   var title = $('.user-title').val();
   var body = $('.user-body').val();
   var theIdea = new Card({title, body});
+  displayIdeaCard(theIdea);
+  storeIdeaCard(theIdea);
+}
+
+function displayIdeaCard(theIdea) {
   $('main').prepend(ideaCardTemplate(theIdea));
-  Card.create(theIdea);
   resetInputs();
+}
+
+function storeIdeaCard(theIdea) {
+  Card.create(theIdea);
 }
 
 function resetInputs() {
   $('.user-title').val("");
   $('.user-body').val("");
   $('.user-title').focus();
-  $('.save-button').attr("disabled", true);
+  enableSaveButton();
 }
 
 Card.create = function(card) {

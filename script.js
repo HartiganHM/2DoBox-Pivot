@@ -1,6 +1,6 @@
 //****Event Listeners****
-$(document).on('blur', '.output-title', editCardTitle);
-$(document).on('blur', '.output-body', editCardBody);
+$(document).on('blur', '.card-title', editCardTitle);
+$(document).on('blur', '.card-body', editCardBody);
 $('.clear-all-button').on('click', clearAllIdeas);
 $('.save-button').on('click', createIdeaCard);
 
@@ -84,29 +84,30 @@ function clearAllIdeas(event) {
   resetInputs();
 }
 
-function editCardTitle(event){
-  event.preventDefault();
+function eventGetCard(event) {
   var articleElement = $(event.target).closest('article')
   var id = articleElement.prop('id');
-  var card = Card.find(id);
+  return Card.find(id);
+}
+
+function editCardTitle(event){
+  event.preventDefault();
+  var card = eventGetCard(event);
   card.title = $(event.target).text();
   card.save();
 }
 
 function editCardBody(event){
   event.preventDefault();
-  var articleElement = $(event.target).closest('article')
-  var id = articleElement.prop('id');
-  var card = Card.find(id);
+  var card = eventGetCard(event);
   card.body = $(event.target).text();
   card.save();
 }
 
 function voteUp(event) {
   event.preventDefault();
-  var articleElement = $(event.target).closest('article')
-  var id = articleElement.prop('id');
-  var card = Card.find(id);
+  var articleElement = $(event.target).closest('article');
+  var card = eventGetCard(event);
   card.incrementQuality();
   card.save();
   articleElement.find('.level').text(card.getQuality());
@@ -115,8 +116,7 @@ function voteUp(event) {
 function voteDown(event) {
   event.preventDefault();
   var articleElement = $(event.target).closest('article');
-  var id = articleElement.prop('id');
-  var card = Card.find(id);
+  var card = eventGetCard(event);
   card.decrementQuality();
   card.save();
   articleElement.find('.level').text(card.getQuality());

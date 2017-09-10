@@ -79,12 +79,9 @@ function renderCards(cards = []) {
 
 function clearAllIdeas(event) {
   event.preventDefault();
-  var allArticles = $('article');
-  if (allArticles.length !== 0){
-    allArticles.remove();
-    localStorage.clear();
-    resetInputs();
-  }
+  $('article').remove();
+  localStorage.clear();
+  resetInputs();
 }
 
 function editCardTitle(event){

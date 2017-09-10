@@ -1,6 +1,3 @@
-// On page load, render cards from local storage
-renderCards(Card.findAll());
-
 //****Event Listeners****
 $(document).on('blur', '.output-title', editCardTitle);
 $(document).on('blur', '.output-body', editCardBody);
@@ -169,7 +166,7 @@ Card.findAll = function() {
 function searchIdeas() {
   var results;
   if ($('.search').val() !== "") {
-    searchFilter(results);
+    results = searchFilter(results);
   } else {
     results = Card.findAll();
   }
@@ -179,12 +176,13 @@ function searchIdeas() {
 
 function searchFilter(results) {
   var cards = Card.findAll();
-  console.log(Card.findAll());
   var searchRegex = new RegExp($('.search').val());
   results = cards.filter(function(card) {
-    console.log()
     return searchRegex.test(card.title) || searchRegex.test(card.body)
   });
+  return results;
 }
 
+// On page load, render cards from local storage.
+renderCards(Card.findAll());
 

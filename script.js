@@ -1,5 +1,7 @@
-//****Event Listeners****
+// On page load, render cards from local storage
+renderCards(Card.findAll());
 
+//****Event Listeners****
 $(document).on('blur', '.output-title', editCardTitle);
 $(document).on('blur', '.output-body', editCardBody);
 $('.clear-all-button').on('click', clearAllIdeas);
@@ -12,21 +14,20 @@ $('main').on('click', '.up-vote', voteUp);
 $('main').on('click', '.down-vote', voteDown);
 
 //****Functions****
-
 function enableSaveButton() {
   if($('.user-title').val() !== "" && $('.user-body').val() !== "") {
     $('.save-button').removeAttr('disabled');
   } else {
     $('.save-button').attr('disabled', true)
   }
-};
+}
 
-function Card(params) {
-  this.title = params.title;
-  this.body = params.body;
-  this.id = params.id || Date.now();
-  this.qualityIndex = params.qualityIndex || 0 ;
-};
+function Card(object) {
+  this.title = object.title;
+  this.body = object.body;
+  this.id = object.id || Date.now();
+  this.qualityIndex = object.qualityIndex || 0 ;
+}
 
 function createIdeaCard(event) {
   event.preventDefault();
@@ -35,15 +36,19 @@ function createIdeaCard(event) {
   var theIdea = new Card({title, body});
   $('main').prepend(ideaCardTemplate(theIdea));
   Card.create(theIdea);
+  resetInputs();
+}
+
+function resetInputs() {
   $('.user-title').val("");
   $('.user-body').val("");
   $('.user-title').focus();
   $('.save-button').attr("disabled", true);
-};
+}
 
 Card.create = function(card) {
   localStorage.setItem(card.id, JSON.stringify(card));
-};
+}
 
 function ideaCardTemplate(idea) {
   $('main').prepend(
@@ -58,14 +63,14 @@ function ideaCardTemplate(idea) {
         </article>
       `
     )
-};
+}
 
 function renderCards(cards = []) {
   for ( var i = 0; i < cards.length; i++) {
     var card = cards[i];
     $('main').append(ideaCardTemplate(card));
   }
-};
+}
 
 function clearAllIdeas(event) {
   event.preventDefault();
@@ -73,9 +78,9 @@ function clearAllIdeas(event) {
   if (allArticles.length !== 0){
     allArticles.remove();
     localStorage.clear();
-    $('.user-title').focus();
+    resetInputs();
   }
-};
+}
 
 function editCardTitle(event){
   event.preventDefault();
@@ -84,7 +89,7 @@ function editCardTitle(event){
   var card = Card.find(id);
   card.title = $(event.target).text();
   card.save();
-};
+}
 
 function editCardBody(event){
   event.preventDefault();
@@ -93,7 +98,7 @@ function editCardBody(event){
   var card = Card.find(id);
   card.body = $(event.target).text();
   card.save();
-};
+}
 
 function voteUp(event) {
   event.preventDefault();
@@ -103,7 +108,7 @@ function voteUp(event) {
   card.incrementQuality();
   card.save();
   articleElement.find('.level').text(card.getQuality());
-};
+}
 
 function voteDown(event) {
   event.preventDefault();
@@ -113,46 +118,44 @@ function voteDown(event) {
   card.decrementQuality();
   card.save();
   articleElement.find('.level').text(card.getQuality());
-};
+}
 
 Card.prototype.getQuality = function() {
   var qualityArray = ['swill', 'plausible', 'genius'];
-
   return qualityArray[this.qualityIndex];
-};
+}
 
 Card.prototype.incrementQuality = function() {
   var qualityArray = ['swill', 'plausible', 'genius'];
-
   if (this.qualityIndex !== qualityArray.length - 1) {
     this.qualityIndex += 1;
   }
-};
+}
 
 Card.prototype.decrementQuality = function() {
   if (this.qualityIndex !== 0) {
     this.qualityIndex -= 1;
   }
-};
+}
 
 function deleteIdeaCard(event) {
   var articleElement = $(event.target).closest('article');
   var id = articleElement.prop('id');
   articleElement.remove();
   Card.delete(id);
-};
+}
 
 Card.delete = function(id) {
   localStorage.removeItem(id);
-};
+}
 
 Card.prototype.save = function() {
   Card.create(this);
-};
+}
 
 Card.find = function(id) {
   return new Card(JSON.parse(localStorage.getItem(id)));
-};
+}
 
 Card.findAll = function() {
   var values = [],
@@ -161,24 +164,27 @@ Card.findAll = function() {
       values.push(new Card(JSON.parse(localStorage.getItem(keys[i]))));
     }
     return values;
-};
+}
 
 function searchIdeas() {
-  var searchEngineValue = $('.search').val();
-  var results
-  if (searchEngineValue !== "") {
-    var cards = Card.findAll();
-    console.log(Card.findAll())
-    var searchRegex = new RegExp(searchEngineValue);
-    results = cards.filter(function(card) {
-      console.log()
-      return searchRegex.test(card.title) || searchRegex.test(card.body)
-    })
+  var results;
+  if ($('.search').val() !== "") {
+    searchFilter(results);
   } else {
     results = Card.findAll();
   }
     $('main').empty();
-    renderCards(results)
-};
+    renderCards(results);
+}
 
-renderCards(Card.findAll())
+function searchFilter(results) {
+  var cards = Card.findAll();
+  console.log(Card.findAll());
+  var searchRegex = new RegExp($('.search').val());
+  results = cards.filter(function(card) {
+    console.log()
+    return searchRegex.test(card.title) || searchRegex.test(card.body)
+  });
+}
+
+

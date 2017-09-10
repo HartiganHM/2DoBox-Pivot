@@ -171,23 +171,26 @@ Card.findAll = function() {
 function searchIdeas() {
   var results;
   if ($('.search').val() !== "") {
-    results = searchFilter(results);
+    results = searchFilter();
   } else {
     results = Card.findAll();
   }
-    $('main').empty();
-    renderCards(results);
+  displaySearch(results);
 }
 
-function searchFilter(results) {
+function searchFilter() {
   var cards = Card.findAll();
   var searchRegex = new RegExp($('.search').val());
-  results = cards.filter(function(card) {
+  var results = cards.filter(function(card) {
     return searchRegex.test(card.title) || searchRegex.test(card.body)
   });
   return results;
 }
 
-// On page load, render cards from local storage.
+function displaySearch(results) {
+  $('main').empty();
+  renderCards(results);
+}
+
 renderCards(Card.findAll());
 

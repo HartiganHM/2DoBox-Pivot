@@ -3,7 +3,6 @@ $(document).on('blur', '.card-title', editCardTitle);
 $(document).on('blur', '.card-body', editCardBody);
 $('.clear-all-button').on('click', clearAllCards);
 $('.save-button').on('click', createCard);
-
 $('.user-title, .user-body').on('keyup', enableSaveButton);
 $('.search').on('keyup', searchCards);
 $('main').on('click', '.delete', deleteCard);
@@ -25,11 +24,16 @@ function Card(object) {
   this.body = object.body;
   this.id = object.id || Date.now();
   this.qualityIndex = object.qualityIndex || 2 ;
+  this.completed = false;
 }
 
-function completedCard() {
-  var completedCards = [];
+function completedCard(event) {
+  event.preventDefault();
+  var card = eventGetCard(event);
+  card.completed = true;
   $(this).parent().addClass('completed-card');
+  card.save();
+  Card.findCompleted();
 }
 
 function createCard(event) {
@@ -77,7 +81,7 @@ function cardTemplate(card) {
 }
 
 function renderCards(cards = []) {
-  for ( var i = 0; i < cards.length; i++) {
+  for (var i = 0; i < cards.length; i++) {
     var card = cards[i];
     $('main').append(cardTemplate(card));
   }
@@ -172,6 +176,17 @@ Card.findAll = function() {
       values.push(new Card(JSON.parse(localStorage.getItem(keys[i]))));
     }
     return values;
+}
+
+Card.findCompleted = function() {
+  var values = [],
+  keys = Object.keys(localStorage);
+    for (var i = 0; i < keys.length; i++) {
+      values.push(new Card(JSON.parse(localStorage.getItem(keys[i]))));
+    }
+  values.forEach(function(card) {
+    console.log(card.completed);
+  }) 
 }
 
 function searchCards() {

@@ -3,6 +3,7 @@ $(document).on('blur', '.card-title', editCardTitle);
 $(document).on('blur', '.card-body', editCardBody);
 $('.clear-all-button').on('click', clearAllCards);
 $('.save-button').on('click', createCard);
+$('.show-more').on('click', showMoreCards);
 
 $('.user-title, .user-body').on('keyup', enableSaveButton);
 $('.search').on('keyup', searchCards);
@@ -31,12 +32,13 @@ function createCard(event) {
   var title = $('.user-title').val();
   var body = $('.user-body').val();
   var theCard = new Card({title, body});
-  displayCard(theCard);
   storeCard(theCard);
+  displayCard(theCard);
 }
 
 function displayCard(card) {
-  $('main').prepend(cardTemplate(card));
+  // $('main').prepend(cardTemplate(card));
+  renderCards(Card.findAll());
   resetInputs();
 }
 
@@ -71,10 +73,42 @@ function cardTemplate(card) {
 }
 
 function renderCards(cards = []) {
+  $('main').empty();
+  if(cards.length > 10) {
+    renderTenCards(cards);
+    displayShowMore();
+  } else {
+    renderAllCards(cards);
+    hideShowMore();
+  }
+}
+
+function renderTenCards(cards = []) {
+  for ( var i = cards.length-10; i < cards.length; i++) {
+      var card = cards[i];
+      $('main').append(cardTemplate(card));
+    }  
+}
+
+function renderAllCards(cards = []) {
   for ( var i = 0; i < cards.length; i++) {
     var card = cards[i];
     $('main').append(cardTemplate(card));
   }
+}
+
+function displayShowMore() {
+  $('.show-more').css('display', 'block');
+}
+
+function hideShowMore() {
+  $('.show-more').css('display', 'none');
+}
+
+function showMoreCards() {
+  $('main').empty();
+  renderAllCards(Card.findAll());
+  hideShowMore();
 }
 
 function clearAllCards(event) {
@@ -143,8 +177,9 @@ Card.prototype.decrementQuality = function() {
 function deleteCard(event) {
   var articleElement = $(event.target).closest('article');
   var id = articleElement.prop('id');
-  articleElement.remove();
+  // articleElement.remove();
   Card.delete(id);
+  renderCards(Card.findAll());
 }
 
 Card.delete = function(id) {
@@ -180,16 +215,16 @@ function searchCards() {
 
 function searchFilter() {
   var cards = Card.findAll();
-  var searchRegex = new RegExp($('.search').val());
+  var searchRegex = new RegExp($('.search').val().toLowerCase());
   var results = cards.filter(function(card) {
-    return searchRegex.test(card.title) || searchRegex.test(card.body)
+    return searchRegex.test(card.title.toLowerCase()) || searchRegex.test(card.body.toLowerCase());
   });
   return results;
 }
 
 function displaySearch(results) {
   $('main').empty();
-  renderCards(results);
+  renderAllCards(results);
 }
 
 renderCards(Card.findAll());

@@ -170,8 +170,9 @@ Card.prototype.decrementQuality = function() {
 function deleteCard(event) {
   var articleElement = $(event.target).closest('article');
   var id = articleElement.prop('id');
-  articleElement.remove();
+  // articleElement.remove();
   Card.delete(id);
+  renderCards(Card.findAll());
 }
 
 Card.delete = function(id) {

@@ -23,7 +23,7 @@ function Card(object) {
   this.title = object.title;
   this.body = object.body;
   this.id = object.id || Date.now();
-  this.qualityIndex = object.qualityIndex || 0 ;
+  this.qualityIndex = object.qualityIndex || 2 ;
 }
 
 function createCard(event) {
@@ -123,12 +123,12 @@ function voteDown(event) {
 }
 
 Card.prototype.getQuality = function() {
-  var qualityArray = ['swill', 'plausible', 'genius'];
+  var qualityArray = ['none', 'low', 'normal', 'high', 'critical'];
   return qualityArray[this.qualityIndex];
 }
 
 Card.prototype.incrementQuality = function() {
-  var qualityArray = ['swill', 'plausible', 'genius'];
+  var qualityArray = ['none', 'low', 'normal', 'high', 'critical'];
   if (this.qualityIndex !== qualityArray.length - 1) {
     this.qualityIndex += 1;
   }

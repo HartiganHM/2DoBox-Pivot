@@ -74,13 +74,19 @@ function cardTemplate(card) {
 function renderCards(cards = []) {
   $('main').empty();
   if(cards.length > 10) {
-    for ( var i = cards.length-10; i < cards.length; i++) {
+    renderTenCards(cards);
+    displayShowMore();
+  } else {
+    renderAllCards(cards);
+    hideShowMore();
+  }
+}
+
+function renderTenCards(cards = []) {
+  for ( var i = cards.length-10; i < cards.length; i++) {
       var card = cards[i];
       $('main').append(cardTemplate(card));
     }  
-  } else {
-    renderAllCards(cards);
-  }
 }
 
 function renderAllCards(cards = []) {
@@ -88,6 +94,14 @@ function renderAllCards(cards = []) {
     var card = cards[i];
     $('main').append(cardTemplate(card));
   }
+}
+
+function displayShowMore() {
+  $('.show-more').css('display', 'block');
+}
+
+function hideShowMore() {
+  $('.show-more').css('display', 'none');
 }
 
 function clearAllCards(event) {

@@ -64,7 +64,7 @@ function cardTemplate(card) {
           <p contenteditable=true class="card-body">${card.body}</p>
           <button class="up-vote"></button>
           <button class="down-vote"></button>
-          <p class="quality">quality: </p><p class="level">${card.getQuality()}</p>
+          <p class="quality">quality: </p><p class="level">${card.getQuality()}</p><p class="completed">Completed</p>
         </article>
       `
     )

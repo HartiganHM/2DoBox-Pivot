@@ -31,12 +31,13 @@ function createCard(event) {
   var title = $('.user-title').val();
   var body = $('.user-body').val();
   var theCard = new Card({title, body});
-  displayCard(theCard);
   storeCard(theCard);
+  displayCard(theCard);
 }
 
 function displayCard(card) {
-  $('main').prepend(cardTemplate(card));
+  // $('main').prepend(cardTemplate(card));
+  renderCards(Card.findAll());
   resetInputs();
 }
 
@@ -71,6 +72,7 @@ function cardTemplate(card) {
 }
 
 function renderCards(cards = []) {
+  $('main').empty();
   if(cards.length > 10) {
     for ( var i = cards.length-10; i < cards.length; i++) {
       var card = cards[i];
@@ -204,3 +206,4 @@ function displaySearch(results) {
 }
 
 renderCards(Card.findAll());
+

@@ -5,6 +5,12 @@ $('.clear-all-button').on('click', clearAllCards);
 $('.save-button').on('click', createCard);
 $('.show-more').on('click', showMoreCards);
 
+$('.critical-btn').on('click', filterCritical);
+$('.high-btn').on('click', filterHigh);
+$('.normal-btn').on('click', filterNormal);
+$('.low-btn').on('click', filterLow);
+$('.none-btn').on('click', filterNone);
+
 $('.user-title, .user-body').on('keyup', enableSaveButton);
 $('.search').on('keyup', searchCards);
 $('main').on('click', '.delete', deleteCard);
@@ -20,11 +26,22 @@ function enableSaveButton() {
   }
 }
 
+function enableControlButtons(cards) {
+  var allCards = Card.findAll();
+  if(allCards.length > 0) {
+    $('.importance').prop('disabled', false);
+    $('.clear-all-button').prop('disabled', false);
+  } else {
+    $('.importance').prop('disabled', true);
+    $('.clear-all-button').prop('disabled', true);
+  }
+}
+
 function Card(object) {
   this.title = object.title;
   this.body = object.body;
   this.id = object.id || Date.now();
-  this.qualityIndex = object.qualityIndex || 2 ;
+  this.qualityIndex = object.qualityIndex || 3 ;
 }
 
 function createCard(event) {
@@ -84,6 +101,7 @@ function renderCards(cards = []) {
 }
 
 function renderTenCards(cards = []) {
+  enableControlButtons(cards);
   for ( var i = cards.length-10; i < cards.length; i++) {
       var card = cards[i];
       $('main').append(cardTemplate(card));
@@ -91,6 +109,7 @@ function renderTenCards(cards = []) {
 }
 
 function renderAllCards(cards = []) {
+  enableControlButtons(cards);
   for ( var i = 0; i < cards.length; i++) {
     var card = cards[i];
     $('main').append(cardTemplate(card));
@@ -116,6 +135,7 @@ function clearAllCards(event) {
   $('article').remove();
   localStorage.clear();
   resetInputs();
+  enableControlButtons();
 }
 
 function eventGetCard(event) {
@@ -157,19 +177,19 @@ function voteDown(event) {
 }
 
 Card.prototype.getQuality = function() {
-  var qualityArray = ['none', 'low', 'normal', 'high', 'critical'];
+  var qualityArray = [false, 'none', 'low', 'normal', 'high', 'critical'];
   return qualityArray[this.qualityIndex];
 }
 
 Card.prototype.incrementQuality = function() {
-  var qualityArray = ['none', 'low', 'normal', 'high', 'critical'];
+  var qualityArray = [false, 'none', 'low', 'normal', 'high', 'critical'];
   if (this.qualityIndex !== qualityArray.length - 1) {
     this.qualityIndex += 1;
   }
 }
 
 Card.prototype.decrementQuality = function() {
-  if (this.qualityIndex !== 0) {
+  if (this.qualityIndex !== 1) {
     this.qualityIndex -= 1;
   }
 }
@@ -184,6 +204,7 @@ function deleteCard(event) {
 
 Card.delete = function(id) {
   localStorage.removeItem(id);
+  enableControlButtons();
 }
 
 Card.prototype.save = function() {
@@ -200,6 +221,7 @@ Card.findAll = function() {
     for (var i = 0; i < keys.length; i++) {
       values.push(new Card(JSON.parse(localStorage.getItem(keys[i]))));
     }
+    console.log(values);
     return values;
 }
 
@@ -210,7 +232,7 @@ function searchCards() {
   } else {
     results = Card.findAll();
   }
-  displaySearch(results);
+  displayFilter(results);
 }
 
 function searchFilter() {
@@ -222,10 +244,40 @@ function searchFilter() {
   return results;
 }
 
-function displaySearch(results) {
+function displayFilter(results) {
   $('main').empty();
   renderAllCards(results);
+  hideShowMore();
 }
+
+function filterImportance(importance) {
+  var allCards = Card.findAll();
+  var results = allCards.filter(function(card){
+    return card.qualityIndex === importance;
+  });
+  displayFilter(results);
+}
+
+function filterCritical() {
+  filterImportance(5);
+}
+
+function filterHigh() {
+  filterImportance(4);
+}
+
+function filterNormal() {
+  filterImportance(3);
+}
+
+function filterLow() {
+  filterImportance(2);
+}
+
+function filterNone() {
+  filterImportance(1);
+}
+
 
 renderCards(Card.findAll());
 

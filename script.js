@@ -9,6 +9,11 @@ $('.search').on('keyup', searchCards);
 $('main').on('click', '.delete', deleteCard);
 $('main').on('click', '.up-vote', voteUp);
 $('main').on('click', '.down-vote', voteDown);
+$('main').on('click', '.completed', completedCard);
+
+function completedCard() {
+  $(this).parent().addClass('completed-card');
+}
 
 //****Functions****
 function enableSaveButton() {

@@ -3,6 +3,7 @@ $(document).on('blur', '.card-title', editCardTitle);
 $(document).on('blur', '.card-body', editCardBody);
 $('.clear-all-button').on('click', clearAllCards);
 $('.save-button').on('click', createCard);
+
 $('.show-more').on('click', showMoreCards);
 
 $('.critical-btn').on('click', filterCritical);
@@ -11,11 +12,13 @@ $('.normal-btn').on('click', filterNormal);
 $('.low-btn').on('click', filterLow);
 $('.none-btn').on('click', filterNone);
 
+
 $('.user-title, .user-body').on('keyup', enableSaveButton);
 $('.search').on('keyup', searchCards);
 $('main').on('click', '.delete', deleteCard);
 $('main').on('click', '.up-vote', voteUp);
 $('main').on('click', '.down-vote', voteDown);
+$('main').on('click', '.completed', completedCard);
 
 //****Functions****
 function enableSaveButton() {
@@ -42,6 +45,17 @@ function Card(object) {
   this.body = object.body;
   this.id = object.id || Date.now();
   this.qualityIndex = object.qualityIndex || 3 ;
+  this.completed = false;
+}
+
+function completedCard(event) {
+  event.preventDefault();
+  var card = eventGetCard(event);
+  card.completed = true;
+  $(this).parent().addClass('completed-card');
+  card.save();
+  Card.findCompleted();
+  
 }
 
 function createCard(event) {
@@ -83,7 +97,7 @@ function cardTemplate(card) {
           <p contenteditable=true class="card-body">${card.body}</p>
           <button class="up-vote"></button>
           <button class="down-vote"></button>
-          <p class="quality">quality: </p><p class="level">${card.getQuality()}</p>
+          <p class="quality">quality: </p><p class="level">${card.getQuality()}</p><p class="completed">Completed</p>
         </article>
       `
     )
@@ -223,6 +237,17 @@ Card.findAll = function() {
     }
     console.log(values);
     return values;
+}
+
+Card.findCompleted = function() {
+  var values = [],
+  keys = Object.keys(localStorage);
+    for (var i = 0; i < keys.length; i++) {
+      values.push(new Card(JSON.parse(localStorage.getItem(keys[i]))));
+    }
+  values.forEach(function(card) {
+    console.log(card.completed);
+  }) 
 }
 
 function searchCards() {

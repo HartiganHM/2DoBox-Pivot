@@ -182,6 +182,7 @@ textarea {
   border: 1px solid #FFF;
   border-radius: 20px;
   color: #FFF;
+  cursor: default;
   display: inline-block;
   font-family: "Open Sans", Arial, sans-serif;
   font-size: 14px;
@@ -193,6 +194,11 @@ textarea {
 
 .completed:hover {
   background-color: #39B54A;
+}
+
+.completed-card {
+  opacity: 0.2;
+  transition: opacity 1s;
 }
 
 .level {

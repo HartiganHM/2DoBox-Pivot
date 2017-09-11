@@ -71,14 +71,17 @@ function cardTemplate(card) {
 }
 
 function renderCards(cards = []) {
-  for ( var i = cards.length-10; i < cards.length; i++) {
-    var card = cards[i];
-    console.log('renderCards, card= ' + card);
-    $('main').append(cardTemplate(card));
+  if(cards.length > 10) {
+    for ( var i = cards.length-10; i < cards.length; i++) {
+      var card = cards[i];
+      $('main').append(cardTemplate(card));
+    }  
+  } else {
+    renderAllCards(cards);
   }
 }
 
-function renderSearchCards(cards = []) {
+function renderAllCards(cards = []) {
   for ( var i = 0; i < cards.length; i++) {
     var card = cards[i];
     $('main').append(cardTemplate(card));
@@ -197,8 +200,7 @@ function searchFilter() {
 
 function displaySearch(results) {
   $('main').empty();
-  renderSearchCards(results);
+  renderAllCards(results);
 }
 
 renderCards(Card.findAll());
-

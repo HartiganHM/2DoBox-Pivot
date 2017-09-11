@@ -54,7 +54,9 @@ textarea {
   filter: blur(.5px);
 }
 
-.save-button {
+.save-button, 
+.show-more,
+.importance {
   background: #00A79D;
   border: none;
   color: #FFFFFF;
@@ -66,19 +68,30 @@ textarea {
   width: 512px;
 }
 
-.save-button:disabled {
+.show-more {
+  margin: 40px auto;
+  display: none;
+}
+
+button:disabled {
   background: #d3d3d3;
 }
 
-.save-button:disabled:hover {
+button:disabled:hover {
   background: #d3d3d3;
 }
 
-.save-button:hover {
+.save-button:hover,
+.show-more:hover {
   background: #045E55;
 }
 
 /*.card-controls Section*/
+.card-controls {
+  margin: 0 auto;
+  width: 512px;
+}
+
 .search{
   margin: auto;
   margin-top: 20px;
@@ -101,6 +114,16 @@ textarea {
 .clear-all-button:hover {
   background: #EF4136;
   color: #FFFFFF;
+}
+
+.importance-btns {
+  margin: 20px auto;
+  width: 342px;
+}
+
+.importance {
+  display: inline-block;
+  width: 65px;
 }
 
 /*Main Section*/

@@ -3,6 +3,16 @@ $(document).on('blur', '.card-title', editCardTitle);
 $(document).on('blur', '.card-body', editCardBody);
 $('.clear-all-button').on('click', clearAllCards);
 $('.save-button').on('click', createCard);
+
+$('.show-more').on('click', showMoreCards);
+
+$('.critical-btn').on('click', filterCritical);
+$('.high-btn').on('click', filterHigh);
+$('.normal-btn').on('click', filterNormal);
+$('.low-btn').on('click', filterLow);
+$('.none-btn').on('click', filterNone);
+
+
 $('.user-title, .user-body').on('keyup', enableSaveButton);
 $('.search').on('keyup', searchCards);
 $('main').on('click', '.delete', deleteCard);
@@ -19,11 +29,22 @@ function enableSaveButton() {
   }
 }
 
+function enableControlButtons(cards) {
+  var allCards = Card.findAll();
+  if(allCards.length > 0) {
+    $('.importance').prop('disabled', false);
+    $('.clear-all-button').prop('disabled', false);
+  } else {
+    $('.importance').prop('disabled', true);
+    $('.clear-all-button').prop('disabled', true);
+  }
+}
+
 function Card(object) {
   this.title = object.title;
   this.body = object.body;
   this.id = object.id || Date.now();
-  this.qualityIndex = object.qualityIndex || 2 ;
+  this.qualityIndex = object.qualityIndex || 3 ;
   this.completed = false;
 }
 
@@ -34,6 +55,7 @@ function completedCard(event) {
   $(this).parent().addClass('completed-card');
   card.save();
   Card.findCompleted();
+  
 }
 
 function createCard(event) {
@@ -41,12 +63,13 @@ function createCard(event) {
   var title = $('.user-title').val();
   var body = $('.user-body').val();
   var theCard = new Card({title, body});
-  displayCard(theCard);
   storeCard(theCard);
+  displayCard(theCard);
 }
 
 function displayCard(card) {
-  $('main').prepend(cardTemplate(card));
+  // $('main').prepend(cardTemplate(card));
+  renderCards(Card.findAll());
   resetInputs();
 }
 
@@ -81,10 +104,44 @@ function cardTemplate(card) {
 }
 
 function renderCards(cards = []) {
-  for (var i = 0; i < cards.length; i++) {
+  $('main').empty();
+  if(cards.length > 10) {
+    renderTenCards(cards);
+    displayShowMore();
+  } else {
+    renderAllCards(cards);
+    hideShowMore();
+  }
+}
+
+function renderTenCards(cards = []) {
+  enableControlButtons(cards);
+  for ( var i = cards.length-10; i < cards.length; i++) {
+      var card = cards[i];
+      $('main').append(cardTemplate(card));
+    }  
+}
+
+function renderAllCards(cards = []) {
+  enableControlButtons(cards);
+  for ( var i = 0; i < cards.length; i++) {
     var card = cards[i];
     $('main').append(cardTemplate(card));
   }
+}
+
+function displayShowMore() {
+  $('.show-more').css('display', 'block');
+}
+
+function hideShowMore() {
+  $('.show-more').css('display', 'none');
+}
+
+function showMoreCards() {
+  $('main').empty();
+  renderAllCards(Card.findAll());
+  hideShowMore();
 }
 
 function clearAllCards(event) {
@@ -92,6 +149,7 @@ function clearAllCards(event) {
   $('article').remove();
   localStorage.clear();
   resetInputs();
+  enableControlButtons();
 }
 
 function eventGetCard(event) {
@@ -133,19 +191,19 @@ function voteDown(event) {
 }
 
 Card.prototype.getQuality = function() {
-  var qualityArray = ['none', 'low', 'normal', 'high', 'critical'];
+  var qualityArray = [false, 'none', 'low', 'normal', 'high', 'critical'];
   return qualityArray[this.qualityIndex];
 }
 
 Card.prototype.incrementQuality = function() {
-  var qualityArray = ['none', 'low', 'normal', 'high', 'critical'];
+  var qualityArray = [false, 'none', 'low', 'normal', 'high', 'critical'];
   if (this.qualityIndex !== qualityArray.length - 1) {
     this.qualityIndex += 1;
   }
 }
 
 Card.prototype.decrementQuality = function() {
-  if (this.qualityIndex !== 0) {
+  if (this.qualityIndex !== 1) {
     this.qualityIndex -= 1;
   }
 }
@@ -153,12 +211,14 @@ Card.prototype.decrementQuality = function() {
 function deleteCard(event) {
   var articleElement = $(event.target).closest('article');
   var id = articleElement.prop('id');
-  articleElement.remove();
+  // articleElement.remove();
   Card.delete(id);
+  renderCards(Card.findAll());
 }
 
 Card.delete = function(id) {
   localStorage.removeItem(id);
+  enableControlButtons();
 }
 
 Card.prototype.save = function() {
@@ -175,6 +235,7 @@ Card.findAll = function() {
     for (var i = 0; i < keys.length; i++) {
       values.push(new Card(JSON.parse(localStorage.getItem(keys[i]))));
     }
+    console.log(values);
     return values;
 }
 
@@ -196,22 +257,52 @@ function searchCards() {
   } else {
     results = Card.findAll();
   }
-  displaySearch(results);
+  displayFilter(results);
 }
 
 function searchFilter() {
   var cards = Card.findAll();
-  var searchRegex = new RegExp($('.search').val());
+  var searchRegex = new RegExp($('.search').val().toLowerCase());
   var results = cards.filter(function(card) {
-    return searchRegex.test(card.title) || searchRegex.test(card.body)
+    return searchRegex.test(card.title.toLowerCase()) || searchRegex.test(card.body.toLowerCase());
   });
   return results;
 }
 
-function displaySearch(results) {
+function displayFilter(results) {
   $('main').empty();
-  renderCards(results);
+  renderAllCards(results);
+  hideShowMore();
 }
+
+function filterImportance(importance) {
+  var allCards = Card.findAll();
+  var results = allCards.filter(function(card){
+    return card.qualityIndex === importance;
+  });
+  displayFilter(results);
+}
+
+function filterCritical() {
+  filterImportance(5);
+}
+
+function filterHigh() {
+  filterImportance(4);
+}
+
+function filterNormal() {
+  filterImportance(3);
+}
+
+function filterLow() {
+  filterImportance(2);
+}
+
+function filterNone() {
+  filterImportance(1);
+}
+
 
 renderCards(Card.findAll());
 

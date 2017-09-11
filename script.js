@@ -71,6 +71,14 @@ function cardTemplate(card) {
 }
 
 function renderCards(cards = []) {
+  for ( var i = cards.length-10; i < cards.length; i++) {
+    var card = cards[i];
+    console.log('renderCards, card= ' + card);
+    $('main').append(cardTemplate(card));
+  }
+}
+
+function renderSearchCards(cards = []) {
   for ( var i = 0; i < cards.length; i++) {
     var card = cards[i];
     $('main').append(cardTemplate(card));
@@ -189,7 +197,7 @@ function searchFilter() {
 
 function displaySearch(results) {
   $('main').empty();
-  renderCards(results);
+  renderSearchCards(results);
 }
 
 renderCards(Card.findAll());

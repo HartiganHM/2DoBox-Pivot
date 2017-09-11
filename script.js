@@ -26,6 +26,17 @@ function enableSaveButton() {
   }
 }
 
+function enableControlButtons(cards) {
+  var allCards = Card.findAll();
+  if(allCards.length > 0) {
+    $('.importance').prop('disabled', false);
+    $('.clear-all-button').prop('disabled', false);
+  } else {
+    $('.importance').prop('disabled', true);
+    $('.clear-all-button').prop('disabled', true);
+  }
+}
+
 function Card(object) {
   this.title = object.title;
   this.body = object.body;
@@ -90,6 +101,7 @@ function renderCards(cards = []) {
 }
 
 function renderTenCards(cards = []) {
+  enableControlButtons(cards);
   for ( var i = cards.length-10; i < cards.length; i++) {
       var card = cards[i];
       $('main').append(cardTemplate(card));
@@ -97,6 +109,7 @@ function renderTenCards(cards = []) {
 }
 
 function renderAllCards(cards = []) {
+  enableControlButtons(cards);
   for ( var i = 0; i < cards.length; i++) {
     var card = cards[i];
     $('main').append(cardTemplate(card));
@@ -122,6 +135,7 @@ function clearAllCards(event) {
   $('article').remove();
   localStorage.clear();
   resetInputs();
+  enableControlButtons();
 }
 
 function eventGetCard(event) {
@@ -190,6 +204,7 @@ function deleteCard(event) {
 
 Card.delete = function(id) {
   localStorage.removeItem(id);
+  enableControlButtons();
 }
 
 Card.prototype.save = function() {
@@ -232,6 +247,7 @@ function searchFilter() {
 function displayFilter(results) {
   $('main').empty();
   renderAllCards(results);
+  hideShowMore();
 }
 
 function filterImportance(importance) {
@@ -240,7 +256,6 @@ function filterImportance(importance) {
     return card.qualityIndex === importance;
   });
   displayFilter(results);
-  hideShowMore();
 }
 
 function filterCritical() {

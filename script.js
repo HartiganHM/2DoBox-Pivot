@@ -11,10 +11,6 @@ $('main').on('click', '.up-vote', voteUp);
 $('main').on('click', '.down-vote', voteDown);
 $('main').on('click', '.completed', completedCard);
 
-function completedCard() {
-  $(this).parent().addClass('completed-card');
-}
-
 //****Functions****
 function enableSaveButton() {
   if($('.user-title').val() !== "" && $('.user-body').val() !== "") {
@@ -29,6 +25,11 @@ function Card(object) {
   this.body = object.body;
   this.id = object.id || Date.now();
   this.qualityIndex = object.qualityIndex || 2 ;
+}
+
+function completedCard() {
+  var completedCards = [];
+  $(this).parent().addClass('completed-card');
 }
 
 function createCard(event) {

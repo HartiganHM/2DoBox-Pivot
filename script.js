@@ -3,6 +3,7 @@ $(document).on('blur', '.card-title', editCardTitle);
 $(document).on('blur', '.card-body', editCardBody);
 $('.clear-all-button').on('click', clearAllCards);
 $('.save-button').on('click', createCard);
+$('.show-more').on('click', showMoreCards);
 
 $('.user-title, .user-body').on('keyup', enableSaveButton);
 $('.search').on('keyup', searchCards);
@@ -102,6 +103,12 @@ function displayShowMore() {
 
 function hideShowMore() {
   $('.show-more').css('display', 'none');
+}
+
+function showMoreCards() {
+  $('main').empty();
+  renderAllCards(Card.findAll());
+  hideShowMore();
 }
 
 function clearAllCards(event) {

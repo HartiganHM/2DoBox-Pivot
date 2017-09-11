@@ -30,7 +30,7 @@ function Card(object) {
   this.title = object.title;
   this.body = object.body;
   this.id = object.id || Date.now();
-  this.qualityIndex = object.qualityIndex || 2 ;
+  this.qualityIndex = object.qualityIndex || 3 ;
 }
 
 function createCard(event) {
@@ -163,19 +163,19 @@ function voteDown(event) {
 }
 
 Card.prototype.getQuality = function() {
-  var qualityArray = ['none', 'low', 'normal', 'high', 'critical'];
+  var qualityArray = [false, 'none', 'low', 'normal', 'high', 'critical'];
   return qualityArray[this.qualityIndex];
 }
 
 Card.prototype.incrementQuality = function() {
-  var qualityArray = ['none', 'low', 'normal', 'high', 'critical'];
+  var qualityArray = [false, 'none', 'low', 'normal', 'high', 'critical'];
   if (this.qualityIndex !== qualityArray.length - 1) {
     this.qualityIndex += 1;
   }
 }
 
 Card.prototype.decrementQuality = function() {
-  if (this.qualityIndex !== 0) {
+  if (this.qualityIndex !== 1) {
     this.qualityIndex -= 1;
   }
 }
@@ -243,23 +243,23 @@ function filterImportance(importance) {
 }
 
 function filterCritical() {
-  filterImportance(4);
+  filterImportance(5);
 }
 
 function filterHigh() {
-  filterImportance(3);
+  filterImportance(4);
 }
 
 function filterNormal() {
-  filterImportance(2);
+  filterImportance(3);
 }
 
 function filterLow() {
-  filterImportance(1);
+  filterImportance(2);
 }
 
 function filterNone() {
-  filterImportance(0);
+  filterImportance(1);
 }
 
 

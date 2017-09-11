@@ -5,6 +5,12 @@ $('.clear-all-button').on('click', clearAllCards);
 $('.save-button').on('click', createCard);
 $('.show-more').on('click', showMoreCards);
 
+$('.critical-btn').on('click', filterCritical);
+$('.high-btn').on('click', filterHigh);
+$('.normal-btn').on('click', filterNormal);
+$('.low-btn').on('click', filterLow);
+$('.none-btn').on('click', filterNone);
+
 $('.user-title, .user-body').on('keyup', enableSaveButton);
 $('.search').on('keyup', searchCards);
 $('main').on('click', '.delete', deleteCard);
@@ -200,6 +206,7 @@ Card.findAll = function() {
     for (var i = 0; i < keys.length; i++) {
       values.push(new Card(JSON.parse(localStorage.getItem(keys[i]))));
     }
+    console.log(values);
     return values;
 }
 
@@ -210,7 +217,7 @@ function searchCards() {
   } else {
     results = Card.findAll();
   }
-  displaySearch(results);
+  displayFilter(results);
 }
 
 function searchFilter() {
@@ -222,10 +229,39 @@ function searchFilter() {
   return results;
 }
 
-function displaySearch(results) {
+function displayFilter(results) {
   $('main').empty();
   renderAllCards(results);
 }
+
+function filterImportance(importance) {
+  var allCards = Card.findAll();
+  var results = allCards.filter(function(card){
+    return card.qualityIndex === importance;
+  });
+  displayFilter(results);
+}
+
+function filterCritical() {
+  filterImportance(4);
+}
+
+function filterHigh() {
+  filterImportance(3);
+}
+
+function filterNormal() {
+  filterImportance(2);
+}
+
+function filterLow() {
+  filterImportance(1);
+}
+
+function filterNone() {
+  filterImportance(0);
+}
+
 
 renderCards(Card.findAll());
 

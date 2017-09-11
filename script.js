@@ -180,9 +180,9 @@ function searchCards() {
 
 function searchFilter() {
   var cards = Card.findAll();
-  var searchRegex = new RegExp($('.search').val());
+  var searchRegex = new RegExp($('.search').val().toLowerCase());
   var results = cards.filter(function(card) {
-    return searchRegex.test(card.title) || searchRegex.test(card.body)
+    return searchRegex.test(card.title.toLowerCase()) || searchRegex.test(card.body.toLowerCase());
   });
   return results;
 }

@@ -73,11 +73,13 @@ textarea {
   display: none;
 }
 
-.save-button:disabled {
+.save-button:disabled,
+.importance:disabled {
   background: #d3d3d3;
 }
 
-.save-button:disabled:hover {
+.save-button:disabled:hover,
+.importance:disabled:hover {
   background: #d3d3d3;
 }
 

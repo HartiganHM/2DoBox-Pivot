@@ -116,9 +116,14 @@ textarea {
   color: #FFFFFF;
 }
 
+.importance-btns {
+  margin: 20px auto;
+  width: 342px;
+}
+
 .importance {
   display: inline-block;
-  width: auto;
+  width: 65px;
 }
 
 /*Main Section*/

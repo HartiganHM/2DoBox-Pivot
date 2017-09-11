@@ -240,6 +240,7 @@ function filterImportance(importance) {
     return card.qualityIndex === importance;
   });
   displayFilter(results);
+  hideShowMore();
 }
 
 function filterCritical() {

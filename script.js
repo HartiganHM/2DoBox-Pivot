@@ -1,12 +1,12 @@
 //****Event Listeners****
 $(document).on('blur', '.card-title', editCardTitle);
 $(document).on('blur', '.card-body', editCardBody);
-$('.clear-all-button').on('click', clearAllIdeas);
-$('.save-button').on('click', createIdeaCard);
+$('.clear-all-button').on('click', clearAllCards);
+$('.save-button').on('click', createCard);
 
 $('.user-title, .user-body').on('keyup', enableSaveButton);
-$('.search').on('keyup', searchIdeas);
-$('main').on('click', '.delete', deleteIdeaCard);
+$('.search').on('keyup', searchCards);
+$('main').on('click', '.delete', deleteCard);
 $('main').on('click', '.up-vote', voteUp);
 $('main').on('click', '.down-vote', voteDown);
 
@@ -23,25 +23,25 @@ function Card(object) {
   this.title = object.title;
   this.body = object.body;
   this.id = object.id || Date.now();
-  this.qualityIndex = object.qualityIndex || 0 ;
+  this.qualityIndex = object.qualityIndex || 2 ;
 }
 
-function createIdeaCard(event) {
+function createCard(event) {
   event.preventDefault();
   var title = $('.user-title').val();
   var body = $('.user-body').val();
-  var theIdea = new Card({title, body});
-  displayIdeaCard(theIdea);
-  storeIdeaCard(theIdea);
+  var theCard = new Card({title, body});
+  displayCard(theCard);
+  storeCard(theCard);
 }
 
-function displayIdeaCard(theIdea) {
-  $('main').prepend(ideaCardTemplate(theIdea));
+function displayCard(card) {
+  $('main').prepend(cardTemplate(card));
   resetInputs();
 }
 
-function storeIdeaCard(theIdea) {
-  Card.create(theIdea);
+function storeCard(card) {
+  Card.create(card);
 }
 
 function resetInputs() {
@@ -55,16 +55,16 @@ Card.create = function(card) {
   localStorage.setItem(card.id, JSON.stringify(card));
 }
 
-function ideaCardTemplate(idea) {
+function cardTemplate(card) {
   $('main').prepend(
       `
-        <article id=${idea.id}>
-          <h2 contenteditable=true class="card-title">${idea.title}</h2>
+        <article id=${card.id}>
+          <h2 contenteditable=true class="card-title">${card.title}</h2>
           <button class="delete"></button>
-          <p contenteditable=true class="card-body">${idea.body}</p>
+          <p contenteditable=true class="card-body">${card.body}</p>
           <button class="up-vote"></button>
           <button class="down-vote"></button>
-          <p class="quality">quality: </p><p class="level">${idea.getQuality()}</p>
+          <p class="quality">quality: </p><p class="level">${card.getQuality()}</p>
         </article>
       `
     )
@@ -73,11 +73,11 @@ function ideaCardTemplate(idea) {
 function renderCards(cards = []) {
   for ( var i = 0; i < cards.length; i++) {
     var card = cards[i];
-    $('main').append(ideaCardTemplate(card));
+    $('main').append(cardTemplate(card));
   }
 }
 
-function clearAllIdeas(event) {
+function clearAllCards(event) {
   event.preventDefault();
   $('article').remove();
   localStorage.clear();
@@ -123,12 +123,12 @@ function voteDown(event) {
 }
 
 Card.prototype.getQuality = function() {
-  var qualityArray = ['swill', 'plausible', 'genius'];
+  var qualityArray = ['none', 'low', 'normal', 'high', 'critical'];
   return qualityArray[this.qualityIndex];
 }
 
 Card.prototype.incrementQuality = function() {
-  var qualityArray = ['swill', 'plausible', 'genius'];
+  var qualityArray = ['none', 'low', 'normal', 'high', 'critical'];
   if (this.qualityIndex !== qualityArray.length - 1) {
     this.qualityIndex += 1;
   }
@@ -140,7 +140,7 @@ Card.prototype.decrementQuality = function() {
   }
 }
 
-function deleteIdeaCard(event) {
+function deleteCard(event) {
   var articleElement = $(event.target).closest('article');
   var id = articleElement.prop('id');
   articleElement.remove();
@@ -168,7 +168,7 @@ Card.findAll = function() {
     return values;
 }
 
-function searchIdeas() {
+function searchCards() {
   var results;
   if ($('.search').val() !== "") {
     results = searchFilter();

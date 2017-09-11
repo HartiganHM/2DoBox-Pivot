@@ -70,6 +70,10 @@ textarea {
   background: #d3d3d3;
 }
 
+.save-button:disabled:hover {
+  background: #d3d3d3;
+}
+
 .save-button:hover {
   background: #045E55;
 }

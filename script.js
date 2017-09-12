@@ -39,6 +39,13 @@ Card.prototype.decrementQuality = function() {
   }
 }
 
+Card.prototype.incrementQuality = function() {
+  var qualityArray = [false, 'none', 'low', 'normal', 'high', 'critical'];
+  if (this.qualityIndex !== qualityArray.length - 1) {
+    this.qualityIndex += 1;
+  }
+}
+
 Card.delete = function(id) {
   localStorage.removeItem(id);
   enableControlButtons();
@@ -71,13 +78,6 @@ Card.findAll = function() {
 Card.prototype.getQuality = function() {
   var qualityArray = [false, 'none', 'low', 'normal', 'high', 'critical'];
   return qualityArray[this.qualityIndex];
-}
-
-Card.prototype.incrementQuality = function() {
-  var qualityArray = [false, 'none', 'low', 'normal', 'high', 'critical'];
-  if (this.qualityIndex !== qualityArray.length - 1) {
-    this.qualityIndex += 1;
-  }
 }
 
 Card.prototype.save = function() {
@@ -124,6 +124,7 @@ function createCard(event) {
   var theCard = new Card({title, body});
   storeCard(theCard);
   displayCard(theCard);
+  enableControlButtons();
 }
 
 function deleteCard(event) {
@@ -275,32 +276,33 @@ function showMoreCards() {
 
 //****Filter Importance****
 function filterImportance(importance) {
-  var allCards = $('.card');
-  console.log($(allCards[0]).children('.level').text());
-  var results = allCards.filter(function(card){
-    return card.qualityIndex === importance;
-  });
+  var results = [];
+    $('.card').each(function(index, card){
+      if ($(this).children('.level').text().includes(importance)) {
+        results.push(card);
+      }
+    });
   displayFilter(results);
 }
 
 function filterCritical() {
-  filterImportance(5);
+  filterImportance('critical');
 }
 
 function filterHigh() {
-  filterImportance(4);
+  filterImportance('high');
 }
 
 function filterNormal() {
-  filterImportance(3);
+  filterImportance('normal');
 }
 
 function filterLow() {
-  filterImportance(2);
+  filterImportance('low');
 }
 
 function filterNone() {
-  filterImportance(1);
+  filterImportance('none');
 }
 
 renderCards(Card.findAll());

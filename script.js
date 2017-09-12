@@ -1,4 +1,5 @@
 //****Event Listeners****
+// $(document.ready())
 $(document).on('blur', '.card-title', editCardTitle);
 $(document).on('blur', '.card-body', editCardBody);
 $('.clear-all-button').on('click', clearAllCards);
@@ -22,6 +23,7 @@ function Card(object) {
   this.body = object.body;
   this.id = object.id || Date.now();
   this.qualityIndex = object.qualityIndex || 3 ;
+  this.completed = false;
 }
 
 Card.create = function(card) {
@@ -83,7 +85,7 @@ Card.prototype.save = function() {
 function cardTemplate(card) {
   $('main').prepend(
       `
-        <article id=${card.id}>
+        <article class="card" id=${card.id}>
           <h2 contenteditable=true class="card-title">${card.title}</h2>
           <button class="delete"></button>
           <p contenteditable=true class="card-body">${card.body}</p>
@@ -104,13 +106,12 @@ function clearAllCards(event) {
 }
 
 function completedCard(event) {
-  event.preventDefault();
-  var card = eventGetCard(event);
+  // var card = eventGetCard(event);
   card.completed = true;
   $(this).parent().addClass('completed-card');
-  console.log(card);
-  card.save();
-  console.log(card);
+  // console.log(card);
+  // card.save();
+  // console.log(card);
 }
 
 function createCard(event) {
@@ -179,14 +180,6 @@ function hideShowMore() {
   $('.show-more').css('display', 'none');
 }
 
-function renderAllCards(cards = []) {
-  enableControlButtons(cards);
-  for ( var i = 0; i < cards.length; i++) {
-    var card = cards[i];
-    $('main').append(cardTemplate(card));
-  }
-}
-
 function renderCards(cards = []) {
   $('main').empty();
   if(cards.length > 10) {
@@ -195,6 +188,14 @@ function renderCards(cards = []) {
   } else {
     renderAllCards(cards);
     hideShowMore();
+  }
+}
+
+function renderAllCards(cards = []) {
+  enableControlButtons(cards);
+  for ( var i = 0; i < cards.length; i++) {
+    var card = cards[i];
+    $('main').append(cardTemplate(card));
   }
 }
 
@@ -272,7 +273,8 @@ function showMoreCards() {
 
 //****Filter Importance****
 function filterImportance(importance) {
-  var allCards = Card.findAll();
+  var allCards = $('.card');
+  console.log($(allCards[0]).children('.level').text());
   var results = allCards.filter(function(card){
     return card.qualityIndex === importance;
   });

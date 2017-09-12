@@ -217,21 +217,31 @@ function searchCards() {
   if ($('.search').val() !== "") {
     results = searchFilter();
   } else {
-    results = Card.findAll();
+    results = $('.card');
   }
   displayFilter(results);
 }
 
+// function searchFilter() {
+//   var cards = $('.card');
+//   console.log(cards);
+//   var searchRegex = new RegExp($('.search').val().toLowerCase());
+//   console.log(searchRegex);
+//   var results = cards.filter(function(card) {
+//     return searchRegex.test($(card).children('.card-title').text().toLowerCase()) || searchRegex.test($(card).children('.card-body').text().toLowerCase());
+//   });
+//   console.log('results =' + JSON.parse(results))
+//   return results;
+// }
+
 function searchFilter() {
-  var cards = $('.card');
-  console.log(cards);
-  console.log(typeof cards)
-  var searchRegex = new RegExp($('.search').val().toLowerCase());
-  console.log(searchRegex);
-  var results = cards.filter(function(card) {
-    return searchRegex.test($(card).children('.card-title').text().toLowerCase()) || searchRegex.test($(card).children('.card-body').text().toLowerCase());
+  var results = [];
+  $('.card').each(function(index, card){
+    if ($(this).children('.card-title').text().toLowerCase().includes($('.search').val().toLowerCase()) || $(this).children('.card-body').text().toLowerCase().includes($('.search').val().toLowerCase())) {
+      results.push(card);
+    }
   });
-  console.log('results =' + JSON.parse(results))
+  console.log("DOM Object" + results);
   return results;
 }
 

@@ -54,16 +54,16 @@ Card.findAll = function() {
     return values;
 }
 
-Card.findCompleted = function() {
-  var values = [],
-  keys = Object.keys(localStorage);
-    for (var i = 0; i < keys.length; i++) {
-      values.push(new Card(JSON.parse(localStorage.getItem(keys[i]))));
-    }
-  values.forEach(function(card) {
-    console.log(card.completed);
-  }) 
-}
+// Card.findCompleted = function() {
+//   var values = [],
+//   keys = Object.keys(localStorage);
+//     for (var i = 0; i < keys.length; i++) {
+//       values.push(new Card(JSON.parse(localStorage.getItem(keys[i]))));
+//     }
+//   values.forEach(function(card) {
+//     console.log(card.completed);
+//   }) 
+// }
 
 Card.prototype.getQuality = function() {
   var qualityArray = [false, 'none', 'low', 'normal', 'high', 'critical'];
@@ -126,14 +126,12 @@ function createCard(event) {
 function deleteCard(event) {
   var articleElement = $(event.target).closest('article');
   var id = articleElement.prop('id');
-  // articleElement.remove();
+  articleElement.remove();
   Card.delete(id);
-  renderCards(Card.findAll());
 }
 
 function displayCard(card) {
-  // $('main').prepend(cardTemplate(card));
-  renderCards(Card.findAll());
+  $('main').prepend(cardTemplate(card));
   resetInputs();
 }
 
@@ -152,7 +150,7 @@ function editCardTitle(event){
 }
 
 function enableControlButtons(cards) {
-  var allCards = Card.findAll();
+  var allCards = $('.card');
   if(allCards.length > 0) {
     $('.importance').prop('disabled', false);
     $('.clear-all-button').prop('disabled', false);
@@ -225,11 +223,15 @@ function searchCards() {
 }
 
 function searchFilter() {
-  var cards = Card.findAll();
+  var cards = $('.card');
+  console.log(cards);
+  console.log(typeof cards)
   var searchRegex = new RegExp($('.search').val().toLowerCase());
+  console.log(searchRegex);
   var results = cards.filter(function(card) {
-    return searchRegex.test(card.title.toLowerCase()) || searchRegex.test(card.body.toLowerCase());
+    return searchRegex.test($(card).children('.card-title').text().toLowerCase()) || searchRegex.test($(card).children('.card-body').text().toLowerCase());
   });
+  console.log('results =' + JSON.parse(results))
   return results;
 }
 
@@ -256,8 +258,11 @@ function voteUp(event) {
 }
 //****Show More Cards****
 function displayFilter(results) {
-  $('main').empty();
-  renderAllCards(results);
+  $('.card').hide();
+  // results.forEach(function (card) {
+  //   console.log(card);
+  // })
+  $(results).show();
   hideShowMore();
 }
 

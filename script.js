@@ -1,5 +1,8 @@
 //****Event Listeners****
-// $(document.ready())
+ $(document).ready(function(){
+    enableControlButtons();
+ });
+
 $(document).on('blur', '.card-title', editCardTitle);
 $(document).on('blur', '.card-body', editCardBody);
 $('.clear-all-button').on('click', clearAllCards);
@@ -36,6 +39,13 @@ Card.prototype.decrementQuality = function() {
   }
 }
 
+Card.prototype.incrementQuality = function() {
+  var qualityArray = [false, 'none', 'low', 'normal', 'high', 'critical'];
+  if (this.qualityIndex !== qualityArray.length - 1) {
+    this.qualityIndex += 1;
+  }
+}
+
 Card.delete = function(id) {
   localStorage.removeItem(id);
   enableControlButtons();
@@ -68,13 +78,6 @@ Card.findAll = function() {
 Card.prototype.getQuality = function() {
   var qualityArray = [false, 'none', 'low', 'normal', 'high', 'critical'];
   return qualityArray[this.qualityIndex];
-}
-
-Card.prototype.incrementQuality = function() {
-  var qualityArray = [false, 'none', 'low', 'normal', 'high', 'critical'];
-  if (this.qualityIndex !== qualityArray.length - 1) {
-    this.qualityIndex += 1;
-  }
 }
 
 Card.prototype.save = function() {
@@ -121,6 +124,7 @@ function createCard(event) {
   var theCard = new Card({title, body});
   storeCard(theCard);
   displayCard(theCard);
+  enableControlButtons();
 }
 
 function deleteCard(event) {
@@ -149,9 +153,10 @@ function editCardTitle(event){
   card.save();
 }
 
-function enableControlButtons(cards) {
-  var allCards = $('.card');
-  if(allCards.length > 0) {
+function enableControlButtons() {
+  console.log('I super promise I am running')
+  if($('.card').length > 0) {
+    console.log('running');
     $('.importance').prop('disabled', false);
     $('.clear-all-button').prop('disabled', false);
   } else {
@@ -190,7 +195,6 @@ function renderCards(cards = []) {
 }
 
 function renderAllCards(cards = []) {
-  enableControlButtons(cards);
   for ( var i = 0; i < cards.length; i++) {
     var card = cards[i];
     $('main').append(cardTemplate(card));
@@ -198,7 +202,6 @@ function renderAllCards(cards = []) {
 }
 
 function renderTenCards(cards = []) {
-  enableControlButtons(cards);
   for ( var i = cards.length-10; i < cards.length; i++) {
       var card = cards[i];
       $('main').append(cardTemplate(card));
@@ -221,18 +224,6 @@ function searchCards() {
   }
   displayFilter(results);
 }
-
-// function searchFilter() {
-//   var cards = $('.card');
-//   console.log(cards);
-//   var searchRegex = new RegExp($('.search').val().toLowerCase());
-//   console.log(searchRegex);
-//   var results = cards.filter(function(card) {
-//     return searchRegex.test($(card).children('.card-title').text().toLowerCase()) || searchRegex.test($(card).children('.card-body').text().toLowerCase());
-//   });
-//   console.log('results =' + JSON.parse(results))
-//   return results;
-// }
 
 function searchFilter() {
   var results = [];
@@ -269,9 +260,6 @@ function voteUp(event) {
 //****Show More Cards****
 function displayFilter(results) {
   $('.card').hide();
-  // results.forEach(function (card) {
-  //   console.log(card);
-  // })
   $(results).show();
   hideShowMore();
 }
@@ -288,32 +276,33 @@ function showMoreCards() {
 
 //****Filter Importance****
 function filterImportance(importance) {
-  var allCards = $('.card');
-  console.log($(allCards[0]).children('.level').text());
-  var results = allCards.filter(function(card){
-    return card.qualityIndex === importance;
-  });
+  var results = [];
+    $('.card').each(function(index, card){
+      if ($(this).children('.level').text().includes(importance)) {
+        results.push(card);
+      }
+    });
   displayFilter(results);
 }
 
 function filterCritical() {
-  filterImportance(5);
+  filterImportance('critical');
 }
 
 function filterHigh() {
-  filterImportance(4);
+  filterImportance('high');
 }
 
 function filterNormal() {
-  filterImportance(3);
+  filterImportance('normal');
 }
 
 function filterLow() {
-  filterImportance(2);
+  filterImportance('low');
 }
 
 function filterNone() {
-  filterImportance(1);
+  filterImportance('none');
 }
 
 renderCards(Card.findAll());

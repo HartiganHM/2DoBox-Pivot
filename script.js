@@ -35,6 +35,10 @@ function tweakQuality(direction, currentQuality) {
   var qualityArray = ['none', 'low', 'normal', 'high', 'critical'];
   var index = qualityArray.indexOf(currentQuality);
   direction === true? index++ : index--;
+
+  if(index > 4) { index = 4; }
+  if(index < 0) { index = 0; }
+
   return qualityArray[index];
 }
 
@@ -43,7 +47,7 @@ function qualityHandler(event) {
   var newQuality = tweakQuality($(this).hasClass('up-vote'), $cardQuality.text());
   var storedCard = eventGetCard(event);
   $cardQuality.text(newQuality);
-  storedCard.quality = newQuality;
+  storedCard.quality = newQuality || 'normal';
   saveToStorage(storedCard);
 }
 
@@ -65,10 +69,11 @@ function eventGetCard(event) {
   keys = Object.keys(localStorage);
   for (var i = 0; i < keys.length; i++) {
     cardTemplate(JSON.parse(localStorage.getItem(keys[i])));
-  } var domCards = $('.card:visible')
-    if(domCards.length > 10) {
-      hideOldCards();
-    }
+  } 
+  var domCards = $('.card:visible')
+  if(domCards.length > 10) {
+    hideOldCards();
+  }
 }
 
 function showCompletedCards() {
@@ -78,7 +83,9 @@ function showCompletedCards() {
     if (parsedCard.completed === true) {
     prependCompleted(parsedCard);
     }
-  } 
+  }
+  hideOldCards();
+  $('.show-completed-button').hide(); 
 }
 
 function saveToStorage(card) {
@@ -191,14 +198,12 @@ function enableSaveButton() {
   }
 }
 
-
-
 function hideOldCards() {
-  var cards = $('.card');
+  var cards = $('.card:visible');
   for(var i = 10; i < cards.length; i++) {
     $(cards[i]).hide();
+    displayShowMore();
   }
-  displayShowMore();
 }
 
 function resetInputs() {
@@ -286,10 +291,7 @@ function filterNone() {
 //****Character Counter****
 function characterCounter() {
   $('.title-chars').text(($('.user-title').val().length));
-  $('.body-chars').text(($('.user-body').val().length));
-
-//if statement not working because the if statement in the enableSaveButton function is overriding.
-  
+  $('.body-chars').text(($('.user-body').val().length));  
 }
 
 

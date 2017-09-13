@@ -190,7 +190,7 @@ function enableSaveButton() {
   if($('.user-title').val() !== "" && $('.user-body').val() !== "") {
     $('.save-button').removeAttr('disabled');
   } else {
-    $('.save-button').attr('disabled', true)
+    $('.save-button').attr('disabled', true);
   }
 }
 
@@ -330,7 +330,13 @@ function filterNone() {
 
 //****Character Counter****
 function characterCounter() {
-  console.log('characterCounter');
+  $('.title-chars').text(($('.user-title').val().length));
+  $('.body-chars').text(($('.user-body').val().length));
+
+//if statement not working because the if statement in the enableSaveButton function is overriding.
+   if(parseInt($('.title-chars').text()) > 20 || parseInt($('.body-chars').text()) > 20) {
+      $('.save-button').removeAttr('disabled');
+  }
 }
 
 

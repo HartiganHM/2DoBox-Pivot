@@ -1,8 +1,8 @@
 //****Event Listeners****
  $(document).ready(function(){
     enableControlButtons();
+    getFromStorage();
  });
-
 $(document).on('blur', '.card-title', editCardTitle);
 $(document).on('blur', '.card-body', editCardBody);
 $('.clear-all-button').on('click', clearAllCards);
@@ -17,8 +17,7 @@ $('.user-title, .user-body').on('keyup', enableSaveButton);
 $('.user-title, .user-body').on('keyup', characterCounter);
 $('.search').on('keyup', searchCards);
 $('main').on('click', '.delete', deleteCard);
-$('main').on('click', '.up-vote', voteUp);
-$('main').on('click', '.down-vote', voteDown);
+$('main').on('click', '.up-vote, .down-vote', qualityHandler);
 $('main').on('click', '.completed', completedCard);
 
 //****Card Object****
@@ -26,63 +25,49 @@ function Card(object) {
   this.title = object.title;
   this.body = object.body;
   this.id = object.id || Date.now();
-  this.qualityIndex = object.qualityIndex || 3 ;
+  this.quality = 'normal';
   this.completed = false;
 }
 
-Card.create = function(card) {
-  localStorage.setItem(card.id, JSON.stringify(card));
+function tweakQuality(direction, currentQuality) {
+  var qualityArray = ['none', 'low', 'normal', 'high', 'critical'];
+  var index = qualityArray.indexOf(currentQuality);
+  direction === true? index++ : index--;
+  return qualityArray[index];
 }
 
-Card.prototype.decrementQuality = function() {
-  if (this.qualityIndex !== 1) {
-    this.qualityIndex -= 1;
-  }
+function qualityHandler(event) {
+  var $cardQuality = $(this).siblings('.level');
+  var newQuality = tweakQuality($(this).hasClass('up-vote'), $cardQuality.text());
+  var storedCard = eventGetCard(event);
+  $cardQuality.text(newQuality);
+  storedCard.quality = newQuality;
+  saveToStorage(storedCard);
 }
 
-Card.prototype.incrementQuality = function() {
-  var qualityArray = [false, 'none', 'low', 'normal', 'high', 'critical'];
-  if (this.qualityIndex !== qualityArray.length - 1) {
-    this.qualityIndex += 1;
-  }
-}
-
-Card.delete = function(id) {
+function deleteCard(event) {
+  var articleElement = $(event.target).closest('article');
+  var id = articleElement.prop('id');
+  articleElement.remove();
   localStorage.removeItem(id);
   enableControlButtons();
 }
 
-Card.find = function(id) {
-  return new Card(JSON.parse(localStorage.getItem(id)));
+function eventGetCard(event) {
+  var articleElement = $(event.target).closest('article')
+  var id = articleElement.prop('id');
+  return JSON.parse(localStorage.getItem(id));
 }
 
-Card.findAll = function() {
-  var values = [],
+ function getFromStorage() {
   keys = Object.keys(localStorage);
-    for (var i = 0; i < keys.length; i++) {
-      values.push(new Card(JSON.parse(localStorage.getItem(keys[i]))));
-    }
-    return values;
+  for (var i = 0; i < keys.length; i++) {
+    cardTemplate(JSON.parse(localStorage.getItem(keys[i])));
+  }
 }
 
-// Card.findCompleted = function() {
-//   var values = [],
-//   keys = Object.keys(localStorage);
-//     for (var i = 0; i < keys.length; i++) {
-//       values.push(new Card(JSON.parse(localStorage.getItem(keys[i]))));
-//     }
-//   values.forEach(function(card) {
-//     console.log(card.completed);
-//   }) 
-// }
-
-Card.prototype.getQuality = function() {
-  var qualityArray = [false, 'none', 'low', 'normal', 'high', 'critical'];
-  return qualityArray[this.qualityIndex];
-}
-
-Card.prototype.save = function() {
-  Card.create(this);
+function saveToStorage(card) {
+  localStorage.setItem(card.id, JSON.stringify(card));
 }
 
 //****Functions****
@@ -95,7 +80,7 @@ function cardTemplate(card) {
           <p contenteditable=true class="card-body">${card.body}</p>
           <button class="up-vote"></button>
           <button class="down-vote"></button>
-          <p class="quality">quality: </p><p class="level">${card.getQuality()}</p><p class="completed">Completed</p>
+          <p class="quality">quality: </p><p class="level">${card.quality}</p><p class="completed">Completed</p>
         </article>
       `
     )
@@ -111,30 +96,12 @@ function clearAllCards(event) {
 }
 
 function completedCard(event) {
-  var card = eventGetCard(event);
+  // var card = eventGetCard(event);
   card.completed = true;
   $(this).parent().addClass('completed-card');
-  card.save();
-}
-
-function hideCompleted(cards) {
-  // cards = JSON.stringify(cards);
-  console.log('cards passed in: ')
-  console.log(cards);
-
-  //COMPLETED HAS NOTHING!!!!!!!
-  var completed = cards.filter(function(card) {
-    return card.completed === true;
-  });
-  console.log('completed: ')
-  console.log(completed);
-  var completedCards = [];
-  for(var i = 0; i < completed.length; i++) {
-    completedCards.push(Card.find(completed[i].id));
-  }
-  console.log('completedCards: ');
-  console.log(completedCards);
-  $(completedCards).hide();
+  // console.log(card);
+  // saveToStorage(card);
+  // console.log(card);
 }
 
 function createCard(event) {
@@ -144,13 +111,6 @@ function createCard(event) {
   var theCard = new Card({title, body});
   storeCard(theCard);
   displayCard(theCard);
-}
-
-function deleteCard(event) {
-  var articleElement = $(event.target).closest('article');
-  var id = articleElement.prop('id');
-  articleElement.remove();
-  Card.delete(id);
 }
 
 function displayCard(card) {
@@ -164,14 +124,14 @@ function editCardBody(event){
   event.preventDefault();
   var card = eventGetCard(event);
   card.body = $(event.target).text();
-  card.save();
+  saveToStorage(card);
 }
 
 function editCardTitle(event){
   event.preventDefault();
   var card = eventGetCard(event);
   card.title = $(event.target).text();
-  card.save();
+  saveToStorage(card);
 }
 
 function enableControlButtons() {
@@ -192,12 +152,6 @@ function enableSaveButton() {
   } else {
     $('.save-button').attr('disabled', true);
   }
-}
-
-function eventGetCard(event) {
-  var articleElement = $(event.target).closest('article')
-  var id = articleElement.prop('id');
-  return Card.find(id);
 }
 
 function hideShowMore() {
@@ -281,23 +235,7 @@ function storeCard(card) {
   Card.create(card);
 }
 
-function voteDown(event) {
-  event.preventDefault();
-  var articleElement = $(event.target).closest('article');
-  var card = eventGetCard(event);
-  card.decrementQuality();
-  card.save();
-  articleElement.find('.level').text(card.getQuality());
-}
 
-function voteUp(event) {
-  event.preventDefault();
-  var articleElement = $(event.target).closest('article');
-  var card = eventGetCard(event);
-  card.incrementQuality();
-  card.save();
-  articleElement.find('.level').text(card.getQuality());
-}
 //****Show More Cards****
 function displayFilter(results) {
   $('.card').hide();
@@ -363,7 +301,7 @@ function characterCounter() {
 
 
 
-renderCards(Card.findAll());
+
 
 
 

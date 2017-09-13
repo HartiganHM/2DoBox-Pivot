@@ -1,7 +1,6 @@
 //****Event Listeners****
  $(document).ready(function(){
-  loadFromStorage();
-  enableControlButtons();
+    enableControlButtons();
  });
 
 $(document).on('blur', '.card-title', editCardTitle);
@@ -22,13 +21,6 @@ $('main').on('click', '.down-vote', voteDown);
 $('main').on('click', '.completed', completedCard);
 
 //****Card Object****
-function loadFromStorage() {
-  keys = Object.keys(localStorage);
-  for (var i = 0; i < keys.length; i++) {
-    cardTemplate(JSON.parse(localStorage.getItem(keys[i])));
-  }
-}
-
 function Card(object) {
   this.title = object.title;
   this.body = object.body;
@@ -37,17 +29,8 @@ function Card(object) {
   this.completed = false;
 }
 
-function storeCard(card) {
+Card.create = function(card) {
   localStorage.setItem(card.id, JSON.stringify(card));
-}
-
-
-
-Card.prototype.incrementQuality = function() {
-  var qualityArray = [false, 'none', 'low', 'normal', 'high', 'critical'];
-  if (this.qualityIndex !== qualityArray.length - 1) {
-    this.qualityIndex += 1;
-  }
 }
 
 Card.prototype.decrementQuality = function() {
@@ -56,39 +39,52 @@ Card.prototype.decrementQuality = function() {
   }
 }
 
-Card.prototype.getQuality = function() {
+Card.prototype.incrementQuality = function() {
   var qualityArray = [false, 'none', 'low', 'normal', 'high', 'critical'];
-  return qualityArray[this.qualityIndex];
+  if (this.qualityIndex !== qualityArray.length - 1) {
+    this.qualityIndex += 1;
+  }
 }
-
-
-
-
-function changeQuality(direction, currentRank) {
-  var qualityArray = [false, 'none', 'low', 'normal', 'high', 'critical'];
-  var increment = direction === 'down'? -1:1;
-  var currentIndex = qualityArray.indexOr(currentRank);
-  if (currentRank + increment < 0 || currentRank + increment > rankArray.lenght - 1) {
-    return qualityArray[currentIndex];
-  } else {
-    return qualityArray[currentIndex + increment]
-  };
-}
-
-
 
 Card.delete = function(id) {
   localStorage.removeItem(id);
   enableControlButtons();
 }
 
-function findStoredCard (id) {
-  return JSON.parse(localStorage.getItem(id));
+Card.find = function(id) {
+  return new Card(JSON.parse(localStorage.getItem(id)));
+}
+
+Card.findAll = function() {
+  var values = [],
+  keys = Object.keys(localStorage);
+    for (var i = 0; i < keys.length; i++) {
+      values.push(new Card(JSON.parse(localStorage.getItem(keys[i]))));
+    }
+    return values;
 }
 
 
 
+// Card.findCompleted = function() {
+//   var values = [],
+//   keys = Object.keys(localStorage);
+//     for (var i = 0; i < keys.length; i++) {
+//       values.push(new Card(JSON.parse(localStorage.getItem(keys[i]))));
+//     }
+//   values.forEach(function(card) {
+//     console.log(card.completed);
+//   }) 
+// }
 
+Card.prototype.getQuality = function() {
+  var qualityArray = [false, 'none', 'low', 'normal', 'high', 'critical'];
+  return qualityArray[this.qualityIndex];
+}
+
+Card.prototype.save = function() {
+  Card.create(this);
+}
 
 //****Functions****
 function cardTemplate(card) {
@@ -100,7 +96,7 @@ function cardTemplate(card) {
           <p contenteditable=true class="card-body">${card.body}</p>
           <button class="up-vote"></button>
           <button class="down-vote"></button>
-          <p class="quality">quality: </p><p class="level">${card.qualityIndex}</p><p class="completed">Completed</p>
+          <p class="quality">quality: </p><p class="level">${card.getQuality()}</p><p class="completed">Completed</p>
         </article>
       `
     )
@@ -200,7 +196,7 @@ function enableSaveButton() {
 function eventGetCard(event) {
   var articleElement = $(event.target).closest('article')
   var id = articleElement.prop('id');
-  return findStoredCard(id);
+  return Card.find(id);
 }
 
 function hideShowMore() {
@@ -260,6 +256,10 @@ function searchFilter() {
   });
   console.log("DOM Object" + results);
   return results;
+}
+
+function storeCard(card) {
+  Card.create(card);
 }
 
 function voteDown(event) {
@@ -326,3 +326,5 @@ function filterLow() {
 function filterNone() {
   filterImportance('none');
 }
+
+renderCards(Card.findAll());

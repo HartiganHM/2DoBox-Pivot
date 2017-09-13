@@ -14,6 +14,7 @@ $('.normal-btn').on('click', filterNormal);
 $('.low-btn').on('click', filterLow);
 $('.none-btn').on('click', filterNone);
 $('.user-title, .user-body').on('keyup', enableSaveButton);
+$('.user-title, .user-body').on('keyup', characterCounter);
 $('.search').on('keyup', searchCards);
 $('main').on('click', '.delete', deleteCard);
 $('main').on('click', '.up-vote', voteUp);
@@ -106,6 +107,7 @@ function clearAllCards(event) {
   localStorage.clear();
   resetInputs();
   enableControlButtons();
+  hideShowMore();
 }
 
 function completedCard(event) {
@@ -124,7 +126,6 @@ function createCard(event) {
   var theCard = new Card({title, body});
   storeCard(theCard);
   displayCard(theCard);
-  enableControlButtons();
 }
 
 function deleteCard(event) {
@@ -137,6 +138,8 @@ function deleteCard(event) {
 function displayCard(card) {
   $('main').prepend(cardTemplate(card));
   resetInputs();
+  hideOldCards();
+  enableControlButtons();
 }
 
 function editCardBody(event){
@@ -169,7 +172,7 @@ function enableSaveButton() {
   if($('.user-title').val() !== "" && $('.user-body').val() !== "") {
     $('.save-button').removeAttr('disabled');
   } else {
-    $('.save-button').attr('disabled', true)
+    $('.save-button').attr('disabled', true);
   }
 }
 
@@ -184,6 +187,7 @@ function hideShowMore() {
 }
 
 function renderCards(cards = []) {
+<<<<<<< HEAD
   $('main').empty();
   if(cards.length > 10) {
     renderTenCards(cards);
@@ -191,22 +195,51 @@ function renderCards(cards = []) {
   } else {
     renderAllCards(cards);
     hideShowMore();
-  }
-}
-
-function renderAllCards(cards = []) {
+=======
   for ( var i = 0; i < cards.length; i++) {
     var card = cards[i];
     $('main').append(cardTemplate(card));
   }
+  hideCompleted(cards);
+
+  //do we need the :visible selector?
+  var domCards = $('.card:visible')
+  if(domCards.length > 10) {
+    hideOldCards();
+>>>>>>> c80a9825495e630a5b86f8d02d8fe60c9f0795fc
+  }
+
+  // $('main').empty();
+  // if(cards.length > 10) {
+  //   renderTenCards(cards);
+  //   displayShowMore();
+  // } else {
+  //   renderAllCards(cards);
+  //   hideShowMore();
+  // }
 }
 
-function renderTenCards(cards = []) {
-  for ( var i = cards.length-10; i < cards.length; i++) {
-      var card = cards[i];
-      $('main').append(cardTemplate(card));
-    }  
+function hideOldCards() {
+  var cards = $('.card');
+  for(var i = 10; i < cards.length; i++) {
+    $(cards[i]).hide();
+  }
+  displayShowMore();
 }
+
+// function renderAllCards(cards = []) {
+//   for ( var i = 0; i < cards.length; i++) {
+//     var card = cards[i];
+//     $('main').append(cardTemplate(card));
+//   }
+// }
+
+// function renderTenCards(cards = []) {
+//   for ( var i = cards.length-10; i < cards.length; i++) {
+//       var card = cards[i];
+//       $('main').append(cardTemplate(card));
+//     }  
+// }
 
 function resetInputs() {
   $('.user-title').val("");
@@ -269,8 +302,10 @@ function displayShowMore() {
 }
 
 function showMoreCards() {
-  $('main').empty();
-  renderAllCards(Card.findAll());
+  var cards = $('.card');
+  for(var i = 10; i < cards.length; i++) {
+    $(cards[i]).show();
+  }
   hideShowMore();
 }
 
@@ -305,4 +340,29 @@ function filterNone() {
   filterImportance('none');
 }
 
+//****Character Counter****
+function characterCounter() {
+  $('.title-chars').text(($('.user-title').val().length));
+  $('.body-chars').text(($('.user-body').val().length));
+
+//if statement not working because the if statement in the enableSaveButton function is overriding.
+   if(parseInt($('.title-chars').text()) > 20 || parseInt($('.body-chars').text()) > 20) {
+      $('.save-button').removeAttr('disabled');
+  }
+}
+
+
+
+
+
 renderCards(Card.findAll());
+
+
+
+
+
+
+
+
+
+

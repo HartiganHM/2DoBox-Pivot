@@ -20,6 +20,7 @@ $('.search').on('keyup', searchCards);
 $('main').on('click', '.delete', deleteCard);
 $('main').on('click', '.up-vote, .down-vote', qualityHandler);
 $('main').on('click', '.completed', completedCard);
+// $('show-completed-button').on('click', showCompletedCards);
 
 //****Card Object****
 function Card(object) {
@@ -77,7 +78,6 @@ function saveToStorage(card) {
 
 //****Functions****
 function cardTemplate(card) {
-  if (card.completed === false) {
     $('main').prepend(
         `
           <article class="card" id=${card.id}>
@@ -90,7 +90,9 @@ function cardTemplate(card) {
           </article>
         `
       )
-  } else {
+  if (card.completed === true) {
+    var hashId = '#' + card.id;
+    $(hashId).hide();
     enableCompletedButton();
   }
 }

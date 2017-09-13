@@ -64,8 +64,6 @@ Card.findAll = function() {
     return values;
 }
 
-
-
 // Card.findCompleted = function() {
 //   var values = [],
 //   keys = Object.keys(localStorage);
@@ -144,7 +142,6 @@ function createCard(event) {
   var theCard = new Card({title, body});
   storeCard(theCard);
   displayCard(theCard);
-  enableControlButtons();
 }
 
 function deleteCard(event) {
@@ -157,6 +154,8 @@ function deleteCard(event) {
 function displayCard(card) {
   $('main').prepend(cardTemplate(card));
   resetInputs();
+  hideOldCards();
+  enableControlButtons();
 }
 
 function editCardBody(event){
@@ -204,31 +203,49 @@ function hideShowMore() {
 }
 
 function renderCards(cards = []) {
-  hideCompleted(cards);
-
-  $('main').empty();
-  if(cards.length > 10) {
-    renderTenCards(cards);
-    displayShowMore();
-  } else {
-    renderAllCards(cards);
-    hideShowMore();
-  }
-}
-
-function renderAllCards(cards = []) {
   for ( var i = 0; i < cards.length; i++) {
     var card = cards[i];
     $('main').append(cardTemplate(card));
   }
+  hideCompleted(cards);
+
+  //do we need the :visible selector?
+  var domCards = $('.card:visible')
+  if(domCards.length > 10) {
+    hideOldCards();
+  }
+
+  // $('main').empty();
+  // if(cards.length > 10) {
+  //   renderTenCards(cards);
+  //   displayShowMore();
+  // } else {
+  //   renderAllCards(cards);
+  //   hideShowMore();
+  // }
 }
 
-function renderTenCards(cards = []) {
-  for ( var i = cards.length-10; i < cards.length; i++) {
-      var card = cards[i];
-      $('main').append(cardTemplate(card));
-    }  
+function hideOldCards() {
+  var cards = $('.card');
+  for(var i = 10; i < cards.length; i++) {
+    $(cards[i]).hide();
+  }
+  displayShowMore();
 }
+
+// function renderAllCards(cards = []) {
+//   for ( var i = 0; i < cards.length; i++) {
+//     var card = cards[i];
+//     $('main').append(cardTemplate(card));
+//   }
+// }
+
+// function renderTenCards(cards = []) {
+//   for ( var i = cards.length-10; i < cards.length; i++) {
+//       var card = cards[i];
+//       $('main').append(cardTemplate(card));
+//     }  
+// }
 
 function resetInputs() {
   $('.user-title').val("");
@@ -291,8 +308,10 @@ function displayShowMore() {
 }
 
 function showMoreCards() {
-  $('main').empty();
-  renderAllCards(Card.findAll());
+  var cards = $('.card');
+  for(var i = 10; i < cards.length; i++) {
+    $(cards[i]).show();
+  }
   hideShowMore();
 }
 

@@ -46,13 +46,18 @@ function qualityHandler(event) {
   saveToStorage(storedCard);
 }
 
-Card.delete = function(id) {
+function deleteCard(event) {
+  var articleElement = $(event.target).closest('article');
+  var id = articleElement.prop('id');
+  articleElement.remove();
   localStorage.removeItem(id);
   enableControlButtons();
 }
 
-Card.find = function(id) {
-  return new Card(JSON.parse(localStorage.getItem(id)));
+function eventGetCard(event) {
+  var articleElement = $(event.target).closest('article')
+  var id = articleElement.prop('id');
+  return JSON.parse(localStorage.getItem(id));
 }
 
  function getFromStorage() {
@@ -109,13 +114,6 @@ function createCard(event) {
   displayCard(theCard);
 }
 
-function deleteCard(event) {
-  var articleElement = $(event.target).closest('article');
-  var id = articleElement.prop('id');
-  articleElement.remove();
-  Card.delete(id);
-}
-
 function displayCard(card) {
   $('main').prepend(cardTemplate(card));
   resetInputs();
@@ -155,12 +153,6 @@ function enableSaveButton() {
   } else {
     $('.save-button').attr('disabled', true);
   }
-}
-
-function eventGetCard(event) {
-  var articleElement = $(event.target).closest('article')
-  var id = articleElement.prop('id');
-  return Card.find(id);
 }
 
 function hideShowMore() {

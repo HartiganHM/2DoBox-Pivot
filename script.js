@@ -33,20 +33,16 @@ function Card(object) {
 function tweakQuality(direction, currentQuality) {
   var qualityArray = ['none', 'low', 'normal', 'high', 'critical'];
   console.log(direction, currentQuality);
-  //if direction = true move up in array, else down in the array
-  //condition ? true : false
-  var newIndex = qualityArray.indexOf(currentQuality);
-  direction === true? newIndex++ : newIndex--;
-
-  console.log(newIndex);
-  // return newQuality;
+  var index = qualityArray.indexOf(currentQuality);
+  direction === true? index++ : index--;
+  return qualityArray[index];
 }
 
 function qualityHandler(event) {
   var $cardQuality = $(this).siblings('.level');
   var newQuality = tweakQuality($(this).hasClass('up-vote'), $cardQuality.text());
   var storedCard = eventGetCard(event);
-
+  $cardQuality.text(newQuality);
 }
 
 // function voteDown(event) {

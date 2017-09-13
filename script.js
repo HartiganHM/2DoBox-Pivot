@@ -32,7 +32,6 @@ function Card(object) {
 
 function tweakQuality(direction, currentQuality) {
   var qualityArray = ['none', 'low', 'normal', 'high', 'critical'];
-  console.log(direction, currentQuality);
   var index = qualityArray.indexOf(currentQuality);
   direction === true? index++ : index--;
   return qualityArray[index];
@@ -43,43 +42,9 @@ function qualityHandler(event) {
   var newQuality = tweakQuality($(this).hasClass('up-vote'), $cardQuality.text());
   var storedCard = eventGetCard(event);
   $cardQuality.text(newQuality);
+  storedCard.quality = newQuality;
+  saveToStorage(storedCard);
 }
-
-// function voteDown(event) {
-//   event.preventDefault();
-//   var articleElement = $(event.target).closest('article');
-//   var card = eventGetCard(event);
-//   card.decrementQuality();
-//   saveToStorage(card);
-//   articleElement.find('.level').text(card.getQuality());
-// }
-
-// function voteUp(event) {
-//   event.preventDefault();
-//   var articleElement = $(event.target).closest('article');
-//   var card = eventGetCard(event);
-//   card.incrementQuality();
-//   saveToStorage(card);
-//   articleElement.find('.level').text(card.getQuality());
-// }
-
-// Card.prototype.getQuality = function() {
-//   var qualityArray = [false, 'none', 'low', 'normal', 'high', 'critical'];
-//   return qualityArray[this.quality];
-// }
-
-// Card.prototype.decrementQuality = function() {
-//   if (this.quality !== 1) {
-//     this.quality -= 1;
-//   }
-// }
-
-// Card.prototype.incrementQuality = function() {
-//   var qualityArray = [false, 'none', 'low', 'normal', 'high', 'critical'];
-//   if (this.quality !== qualityArray.length - 1) {
-//     this.quality += 1;
-//   }
-// }
 
 Card.delete = function(id) {
   localStorage.removeItem(id);

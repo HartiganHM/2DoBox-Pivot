@@ -64,6 +64,8 @@ Card.findAll = function() {
     return values;
 }
 
+
+
 // Card.findCompleted = function() {
 //   var values = [],
 //   keys = Object.keys(localStorage);
@@ -109,12 +111,30 @@ function clearAllCards(event) {
 }
 
 function completedCard(event) {
-  // var card = eventGetCard(event);
+  var card = eventGetCard(event);
   card.completed = true;
   $(this).parent().addClass('completed-card');
-  // console.log(card);
-  // card.save();
-  // console.log(card);
+  card.save();
+}
+
+function hideCompleted(cards) {
+  // cards = JSON.stringify(cards);
+  console.log('cards passed in: ')
+  console.log(cards);
+
+  //COMPLETED HAS NOTHING!!!!!!!
+  var completed = cards.filter(function(card) {
+    return card.completed === true;
+  });
+  console.log('completed: ')
+  console.log(completed);
+  var completedCards = [];
+  for(var i = 0; i < completed.length; i++) {
+    completedCards.push(Card.find(completed[i].id));
+  }
+  console.log('completedCards: ');
+  console.log(completedCards);
+  $(completedCards).hide();
 }
 
 function createCard(event) {
@@ -184,6 +204,8 @@ function hideShowMore() {
 }
 
 function renderCards(cards = []) {
+  hideCompleted(cards);
+
   $('main').empty();
   if(cards.length > 10) {
     renderTenCards(cards);

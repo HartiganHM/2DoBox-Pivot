@@ -1,6 +1,7 @@
 //****Event Listeners****
  $(document).ready(function(){
     enableControlButtons();
+    getFromStorage();
  });
 
 $(document).on('blur', '.card-title', editCardTitle);
@@ -17,8 +18,7 @@ $('.user-title, .user-body').on('keyup', enableSaveButton);
 $('.user-title, .user-body').on('keyup', characterCounter);
 $('.search').on('keyup', searchCards);
 $('main').on('click', '.delete', deleteCard);
-$('main').on('click', '.up-vote', voteUp);
-$('main').on('click', '.down-vote', voteDown);
+$('main').on('click', '.up-vote, .down-vote', qualityHandler);
 $('main').on('click', '.completed', completedCard);
 
 //****Card Object****
@@ -26,26 +26,64 @@ function Card(object) {
   this.title = object.title;
   this.body = object.body;
   this.id = object.id || Date.now();
-  this.qualityIndex = object.qualityIndex || 3 ;
+  this.quality = 'normal';
   this.completed = false;
 }
 
-Card.create = function(card) {
-  localStorage.setItem(card.id, JSON.stringify(card));
+function tweakQuality(direction, currentQuality) {
+  var qualityArray = ['none', 'low', 'normal', 'high', 'critical'];
+  console.log(direction, currentQuality);
+  //if direction = true move up in array, else down in the array
+  //condition ? true : false
+  var newIndex = qualityArray.indexOf(currentQuality);
+  direction === true? newIndex++ : newIndex--;
+
+  console.log(newIndex);
+  // return newQuality;
 }
 
-Card.prototype.decrementQuality = function() {
-  if (this.qualityIndex !== 1) {
-    this.qualityIndex -= 1;
-  }
+function qualityHandler(event) {
+  var $cardQuality = $(this).siblings('.level');
+  var newQuality = tweakQuality($(this).hasClass('up-vote'), $cardQuality.text());
+  var storedCard = eventGetCard(event);
+
 }
 
-Card.prototype.incrementQuality = function() {
-  var qualityArray = [false, 'none', 'low', 'normal', 'high', 'critical'];
-  if (this.qualityIndex !== qualityArray.length - 1) {
-    this.qualityIndex += 1;
-  }
-}
+// function voteDown(event) {
+//   event.preventDefault();
+//   var articleElement = $(event.target).closest('article');
+//   var card = eventGetCard(event);
+//   card.decrementQuality();
+//   saveToStorage(card);
+//   articleElement.find('.level').text(card.getQuality());
+// }
+
+// function voteUp(event) {
+//   event.preventDefault();
+//   var articleElement = $(event.target).closest('article');
+//   var card = eventGetCard(event);
+//   card.incrementQuality();
+//   saveToStorage(card);
+//   articleElement.find('.level').text(card.getQuality());
+// }
+
+// Card.prototype.getQuality = function() {
+//   var qualityArray = [false, 'none', 'low', 'normal', 'high', 'critical'];
+//   return qualityArray[this.quality];
+// }
+
+// Card.prototype.decrementQuality = function() {
+//   if (this.quality !== 1) {
+//     this.quality -= 1;
+//   }
+// }
+
+// Card.prototype.incrementQuality = function() {
+//   var qualityArray = [false, 'none', 'low', 'normal', 'high', 'critical'];
+//   if (this.quality !== qualityArray.length - 1) {
+//     this.quality += 1;
+//   }
+// }
 
 Card.delete = function(id) {
   localStorage.removeItem(id);
@@ -56,33 +94,15 @@ Card.find = function(id) {
   return new Card(JSON.parse(localStorage.getItem(id)));
 }
 
-Card.findAll = function() {
-  var values = [],
+ function getFromStorage() {
   keys = Object.keys(localStorage);
-    for (var i = 0; i < keys.length; i++) {
-      values.push(new Card(JSON.parse(localStorage.getItem(keys[i]))));
-    }
-    return values;
+  for (var i = 0; i < keys.length; i++) {
+    cardTemplate(JSON.parse(localStorage.getItem(keys[i])));
+  }
 }
 
-// Card.findCompleted = function() {
-//   var values = [],
-//   keys = Object.keys(localStorage);
-//     for (var i = 0; i < keys.length; i++) {
-//       values.push(new Card(JSON.parse(localStorage.getItem(keys[i]))));
-//     }
-//   values.forEach(function(card) {
-//     console.log(card.completed);
-//   }) 
-// }
-
-Card.prototype.getQuality = function() {
-  var qualityArray = [false, 'none', 'low', 'normal', 'high', 'critical'];
-  return qualityArray[this.qualityIndex];
-}
-
-Card.prototype.save = function() {
-  Card.create(this);
+function saveToStorage(card) {
+  localStorage.setItem(card.id, JSON.stringify(card));
 }
 
 //****Functions****
@@ -95,7 +115,7 @@ function cardTemplate(card) {
           <p contenteditable=true class="card-body">${card.body}</p>
           <button class="up-vote"></button>
           <button class="down-vote"></button>
-          <p class="quality">quality: </p><p class="level">${card.getQuality()}</p><p class="completed">Completed</p>
+          <p class="quality">quality: </p><p class="level">${card.quality}</p><p class="completed">Completed</p>
         </article>
       `
     )
@@ -115,7 +135,7 @@ function completedCard(event) {
   card.completed = true;
   $(this).parent().addClass('completed-card');
   // console.log(card);
-  // card.save();
+  // saveToStorage(card);
   // console.log(card);
 }
 
@@ -146,14 +166,14 @@ function editCardBody(event){
   event.preventDefault();
   var card = eventGetCard(event);
   card.body = $(event.target).text();
-  card.save();
+  saveToStorage(card);
 }
 
 function editCardTitle(event){
   event.preventDefault();
   var card = eventGetCard(event);
   card.title = $(event.target).text();
-  card.save();
+  saveToStorage(card);
 }
 
 function enableControlButtons() {
@@ -263,23 +283,7 @@ function storeCard(card) {
   Card.create(card);
 }
 
-function voteDown(event) {
-  event.preventDefault();
-  var articleElement = $(event.target).closest('article');
-  var card = eventGetCard(event);
-  card.decrementQuality();
-  card.save();
-  articleElement.find('.level').text(card.getQuality());
-}
 
-function voteUp(event) {
-  event.preventDefault();
-  var articleElement = $(event.target).closest('article');
-  var card = eventGetCard(event);
-  card.incrementQuality();
-  card.save();
-  articleElement.find('.level').text(card.getQuality());
-}
 //****Show More Cards****
 function displayFilter(results) {
   $('.card').hide();
@@ -345,7 +349,7 @@ function characterCounter() {
 
 
 
-renderCards(Card.findAll());
+
 
 
 

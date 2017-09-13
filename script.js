@@ -66,24 +66,28 @@ function eventGetCard(event) {
   }
 }
 
+
+
 function saveToStorage(card) {
   localStorage.setItem(card.id, JSON.stringify(card));
 }
 
 //****Functions****
 function cardTemplate(card) {
-  $('main').prepend(
-      `
-        <article class="card" id=${card.id}>
-          <h2 contenteditable=true class="card-title">${card.title}</h2>
-          <button class="delete"></button>
-          <p contenteditable=true class="card-body">${card.body}</p>
-          <button class="up-vote"></button>
-          <button class="down-vote"></button>
-          <p class="quality">quality: </p><p class="level">${card.quality}</p><p class="completed">Completed</p>
-        </article>
-      `
-    )
+  if (card.completed === false) {
+    $('main').prepend(
+        `
+          <article class="card" id=${card.id}>
+            <h2 contenteditable=true class="card-title">${card.title}</h2>
+            <button class="delete"></button>
+            <p contenteditable=true class="card-body">${card.body}</p>
+            <button class="up-vote"></button>
+            <button class="down-vote"></button>
+            <p class="quality">quality: </p><p class="level">${card.quality}</p><p class="completed">Completed</p>
+          </article>
+        `
+      )
+  }
 }
 
 function clearAllCards(event) {
@@ -96,12 +100,10 @@ function clearAllCards(event) {
 }
 
 function completedCard(event) {
-  // var card = eventGetCard(event);
-  card.completed = true;
+  var storedCard = eventGetCard(event);
+  storedCard.completed = true;
   $(this).parent().addClass('completed-card');
-  // console.log(card);
-  // saveToStorage(card);
-  // console.log(card);
+  saveToStorage(storedCard);
 }
 
 function createCard(event) {
@@ -109,7 +111,7 @@ function createCard(event) {
   var title = $('.user-title').val();
   var body = $('.user-body').val();
   var theCard = new Card({title, body});
-  storeCard(theCard);
+  saveToStorage(theCard);
   displayCard(theCard);
 }
 
@@ -231,9 +233,9 @@ function searchFilter() {
   return results;
 }
 
-function storeCard(card) {
-  Card.create(card);
-}
+// function storeCard(card) {
+//   Card.create(card);
+// }
 
 
 //****Show More Cards****

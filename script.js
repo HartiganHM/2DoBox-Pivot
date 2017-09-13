@@ -35,7 +35,7 @@ function saveToStorage(card) {
 
 function hideOldCards() {
   var domCards = $('.card:visible');
-  for(var i = 10; i < cards.length; i++) {
+  for(var i = 10; i < domCards.length; i++) {
     $(domCards[i]).hide();
     displayShowMore();
   }

@@ -187,15 +187,6 @@ function hideShowMore() {
 }
 
 function renderCards(cards = []) {
-<<<<<<< HEAD
-  $('main').empty();
-  if(cards.length > 10) {
-    renderTenCards(cards);
-    displayShowMore();
-  } else {
-    renderAllCards(cards);
-    hideShowMore();
-=======
   for ( var i = 0; i < cards.length; i++) {
     var card = cards[i];
     $('main').append(cardTemplate(card));
@@ -206,7 +197,6 @@ function renderCards(cards = []) {
   var domCards = $('.card:visible')
   if(domCards.length > 10) {
     hideOldCards();
->>>>>>> c80a9825495e630a5b86f8d02d8fe60c9f0795fc
   }
 
   // $('main').empty();

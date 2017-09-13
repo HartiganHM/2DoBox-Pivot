@@ -11,6 +11,7 @@ body {
 /*Header Styling*/
 header {
   background: #E5F3F2;
+  padding: 10px;
 }
 
 h1 {
@@ -20,8 +21,6 @@ h1 {
   font-weight: bold;
   margin-bottom: 0;
   margin-top: 0;
-  padding-bottom: 20px;
-  padding-top: 30px;
   text-align: center;
 }
 

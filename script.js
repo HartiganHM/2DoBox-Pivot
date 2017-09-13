@@ -1,7 +1,8 @@
 //****Event Listeners****
  $(document).ready(function(){
-    enableControlButtons();
-    getFromStorage();
+  $('.show-completed-button').hide();
+  getFromStorage();
+  enableControlButtons();
  });
 $(document).on('blur', '.card-title', editCardTitle);
 $(document).on('blur', '.card-body', editCardBody);
@@ -19,6 +20,7 @@ $('.search').on('keyup', searchCards);
 $('main').on('click', '.delete', deleteCard);
 $('main').on('click', '.up-vote, .down-vote', qualityHandler);
 $('main').on('click', '.completed', completedCard);
+$('.show-completed-button').on('click', showCompletedCards);
 
 //****Card Object****
 function Card(object) {
@@ -63,7 +65,20 @@ function eventGetCard(event) {
   keys = Object.keys(localStorage);
   for (var i = 0; i < keys.length; i++) {
     cardTemplate(JSON.parse(localStorage.getItem(keys[i])));
-  }
+  } var domCards = $('.card:visible')
+    if(domCards.length > 10) {
+      hideOldCards();
+    }
+}
+
+function showCompletedCards() {
+  keys = Object.keys(localStorage);
+  for (var i = 0; i < keys.length; i++) {
+    var parsedCard = JSON.parse(localStorage.getItem(keys[i]));
+    if (parsedCard.completed === true) {
+    prependCompleted(parsedCard);
+    }
+  } 
 }
 
 function saveToStorage(card) {
@@ -71,19 +86,39 @@ function saveToStorage(card) {
 }
 
 //****Functions****
-function cardTemplate(card) {
+function prependCompleted(card) {
   $('main').prepend(
-      `
-        <article class="card" id=${card.id}>
-          <h2 contenteditable=true class="card-title">${card.title}</h2>
-          <button class="delete"></button>
-          <p contenteditable=true class="card-body">${card.body}</p>
-          <button class="up-vote"></button>
-          <button class="down-vote"></button>
-          <p class="quality">quality: </p><p class="level">${card.quality}</p><p class="completed">Completed</p>
-        </article>
-      `
-    )
+        `
+          <article class="card" id=${card.id}>
+            <h2 contenteditable=true class="card-title">${card.title}</h2>
+            <button class="delete"></button>
+            <p contenteditable=true class="card-body">${card.body}</p>
+            <button class="up-vote"></button>
+            <button class="down-vote"></button>
+            <p class="quality">quality: </p><p class="level">${card.quality}</p><p class="completed">Completed</p>
+          </article>
+        `
+      )
+}
+
+function cardTemplate(card) {
+    $('main').prepend(
+        `
+          <article class="card" id=${card.id}>
+            <h2 contenteditable=true class="card-title">${card.title}</h2>
+            <button class="delete"></button>
+            <p contenteditable=true class="card-body">${card.body}</p>
+            <button class="up-vote"></button>
+            <button class="down-vote"></button>
+            <p class="quality">quality: </p><p class="level">${card.quality}</p><p class="completed">Completed</p>
+          </article>
+        `
+      )
+  if (card.completed === true) {
+    var hashId = '#' + card.id;
+    $(hashId).hide();
+    enableCompletedButton();
+  }
 }
 
 function clearAllCards(event) {
@@ -96,12 +131,10 @@ function clearAllCards(event) {
 }
 
 function completedCard(event) {
-  // var card = eventGetCard(event);
-  card.completed = true;
+  var storedCard = eventGetCard(event);
+  storedCard.completed = true;
   $(this).parent().addClass('completed-card');
-  // console.log(card);
-  // saveToStorage(card);
-  // console.log(card);
+  saveToStorage(storedCard);
 }
 
 function createCard(event) {
@@ -109,7 +142,7 @@ function createCard(event) {
   var title = $('.user-title').val();
   var body = $('.user-body').val();
   var theCard = new Card({title, body});
-  storeCard(theCard);
+  saveToStorage(theCard);
   displayCard(theCard);
 }
 
@@ -135,15 +168,16 @@ function editCardTitle(event){
 }
 
 function enableControlButtons() {
-  console.log('I super promise I am running')
   if($('.card').length > 0) {
     console.log('running');
-    $('.importance').prop('disabled', false);
-    $('.clear-all-button').prop('disabled', false);
+    $('.importance, .clear-all-button').prop('disabled', false);
   } else {
-    $('.importance').prop('disabled', true);
-    $('.clear-all-button').prop('disabled', true);
+    $('.importance, .clear-all-button').prop('disabled', true);
   }
+}
+
+function enableCompletedButton() {
+  $('.show-completed-button').show();
 }
 
 function enableSaveButton() {
@@ -154,32 +188,7 @@ function enableSaveButton() {
   }
 }
 
-function hideShowMore() {
-  $('.show-more').css('display', 'none');
-}
 
-function renderCards(cards = []) {
-  for ( var i = 0; i < cards.length; i++) {
-    var card = cards[i];
-    $('main').append(cardTemplate(card));
-  }
-  hideCompleted(cards);
-
-  //do we need the :visible selector?
-  var domCards = $('.card:visible')
-  if(domCards.length > 10) {
-    hideOldCards();
-  }
-
-  // $('main').empty();
-  // if(cards.length > 10) {
-  //   renderTenCards(cards);
-  //   displayShowMore();
-  // } else {
-  //   renderAllCards(cards);
-  //   hideShowMore();
-  // }
-}
 
 function hideOldCards() {
   var cards = $('.card');
@@ -188,20 +197,6 @@ function hideOldCards() {
   }
   displayShowMore();
 }
-
-// function renderAllCards(cards = []) {
-//   for ( var i = 0; i < cards.length; i++) {
-//     var card = cards[i];
-//     $('main').append(cardTemplate(card));
-//   }
-// }
-
-// function renderTenCards(cards = []) {
-//   for ( var i = cards.length-10; i < cards.length; i++) {
-//       var card = cards[i];
-//       $('main').append(cardTemplate(card));
-//     }  
-// }
 
 function resetInputs() {
   $('.user-title').val("");
@@ -231,11 +226,6 @@ function searchFilter() {
   return results;
 }
 
-function storeCard(card) {
-  Card.create(card);
-}
-
-
 //****Show More Cards****
 function displayFilter(results) {
   $('.card').hide();
@@ -245,6 +235,10 @@ function displayFilter(results) {
 
 function displayShowMore() {
   $('.show-more').css('display', 'block');
+}
+
+function hideShowMore() {
+  $('.show-more').css('display', 'none');
 }
 
 function showMoreCards() {

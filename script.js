@@ -106,6 +106,7 @@ function clearAllCards(event) {
   localStorage.clear();
   resetInputs();
   enableControlButtons();
+  hideShowMore();
 }
 
 function completedCard(event) {

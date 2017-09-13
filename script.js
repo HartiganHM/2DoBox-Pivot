@@ -14,6 +14,7 @@ $('.normal-btn').on('click', filterNormal);
 $('.low-btn').on('click', filterLow);
 $('.none-btn').on('click', filterNone);
 $('.user-title, .user-body').on('keyup', enableSaveButton);
+$('.user-title, .user-body').on('keyup', characterCounter);
 $('.search').on('keyup', searchCards);
 $('main').on('click', '.delete', deleteCard);
 $('main').on('click', '.up-vote', voteUp);
@@ -327,4 +328,23 @@ function filterNone() {
   filterImportance('none');
 }
 
+//****Character Counter****
+function characterCounter() {
+  console.log('characterCounter');
+}
+
+
+
+
+
 renderCards(Card.findAll());
+
+
+
+
+
+
+
+
+
+

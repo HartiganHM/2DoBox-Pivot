@@ -20,7 +20,7 @@ $('.search').on('keyup', searchCards);
 $('main').on('click', '.delete', deleteCard);
 $('main').on('click', '.up-vote, .down-vote', qualityHandler);
 $('main').on('click', '.completed', completedCard);
-// $('show-completed-button').on('click', showCompletedCards);
+$('.show-completed-button').on('click', showCompletedCards);
 
 //****Card Object****
 function Card(object) {
@@ -65,11 +65,20 @@ function eventGetCard(event) {
   keys = Object.keys(localStorage);
   for (var i = 0; i < keys.length; i++) {
     cardTemplate(JSON.parse(localStorage.getItem(keys[i])));
-  }
-  var domCards = $('.card:visible')
+  } var domCards = $('.card:visible')
     if(domCards.length > 10) {
       hideOldCards();
     }
+}
+
+function showCompletedCards() {
+  keys = Object.keys(localStorage);
+  for (var i = 0; i < keys.length; i++) {
+    var parsedCard = JSON.parse(localStorage.getItem(keys[i]));
+    if (parsedCard.completed === true) {
+    prependCompleted(parsedCard);
+    }
+  } 
 }
 
 function saveToStorage(card) {
@@ -77,6 +86,21 @@ function saveToStorage(card) {
 }
 
 //****Functions****
+function prependCompleted(card) {
+  $('main').prepend(
+        `
+          <article class="card" id=${card.id}>
+            <h2 contenteditable=true class="card-title">${card.title}</h2>
+            <button class="delete"></button>
+            <p contenteditable=true class="card-body">${card.body}</p>
+            <button class="up-vote"></button>
+            <button class="down-vote"></button>
+            <p class="quality">quality: </p><p class="level">${card.quality}</p><p class="completed">Completed</p>
+          </article>
+        `
+      )
+}
+
 function cardTemplate(card) {
     $('main').prepend(
         `
@@ -201,11 +225,6 @@ function searchFilter() {
   console.log("DOM Object" + results);
   return results;
 }
-
-// function storeCard(card) {
-//   Card.create(card);
-// }
-
 
 //****Show More Cards****
 function displayFilter(results) {

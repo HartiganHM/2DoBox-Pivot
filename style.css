@@ -11,7 +11,6 @@ body {
 /*Header Styling*/
 header {
   background: #E5F3F2;
-  height: 316px;
 }
 
 h1 {
@@ -39,15 +38,19 @@ textarea {
   font-size: 120%;
   font-weight: 400;
   height: 28px;
-  margin: 12px auto;
+  margin: 5px auto;
   padding-left: 8px;
   resize: none;
   width: 500px;
 }
 
-/*textarea {
-  height: 100px;
-}*/
+.title-chars,
+.body-chars {
+  display: block;
+  margin: 0 auto;
+  text-align: right;
+  width: 500px;
+}
 
 ::placeholder {
   color: #A9B2B2;

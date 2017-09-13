@@ -14,6 +14,7 @@ $('.normal-btn').on('click', filterNormal);
 $('.low-btn').on('click', filterLow);
 $('.none-btn').on('click', filterNone);
 $('.user-title, .user-body').on('keyup', enableSaveButton);
+$('.user-title, .user-body').on('keyup', characterCounter);
 $('.search').on('keyup', searchCards);
 $('main').on('click', '.delete', deleteCard);
 $('main').on('click', '.up-vote', voteUp);
@@ -189,7 +190,7 @@ function enableSaveButton() {
   if($('.user-title').val() !== "" && $('.user-body').val() !== "") {
     $('.save-button').removeAttr('disabled');
   } else {
-    $('.save-button').attr('disabled', true)
+    $('.save-button').attr('disabled', true);
   }
 }
 
@@ -347,4 +348,29 @@ function filterNone() {
   filterImportance('none');
 }
 
+//****Character Counter****
+function characterCounter() {
+  $('.title-chars').text(($('.user-title').val().length));
+  $('.body-chars').text(($('.user-body').val().length));
+
+//if statement not working because the if statement in the enableSaveButton function is overriding.
+   if(parseInt($('.title-chars').text()) > 20 || parseInt($('.body-chars').text()) > 20) {
+      $('.save-button').removeAttr('disabled');
+  }
+}
+
+
+
+
+
 renderCards(Card.findAll());
+
+
+
+
+
+
+
+
+
+

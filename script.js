@@ -3,7 +3,6 @@
     enableControlButtons();
     getFromStorage();
  });
-
 $(document).on('blur', '.card-title', editCardTitle);
 $(document).on('blur', '.card-body', editCardBody);
 $('.clear-all-button').on('click', clearAllCards);

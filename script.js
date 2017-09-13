@@ -204,7 +204,7 @@ function showCompletedCards() {
     }
   }
   hideOldCards();
-  $('.show-completed-button').hide(); 
+  $('.show-completed-button').slideToggle('slow');
 }
 
 function filterImportance() {

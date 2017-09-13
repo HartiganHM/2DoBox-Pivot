@@ -98,7 +98,8 @@ button:disabled:hover {
   width: 500px;
 }
 
-.clear-all-button {
+.clear-all-button,
+.show-completed-button {
   background: #6D6E71;
   border: none;
   color: #FFFFFF;

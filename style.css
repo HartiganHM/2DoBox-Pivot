@@ -2,8 +2,8 @@
 /*Base Stylings: 8;
 /*Card Control Buttons and Fields: 14;
 /*Header Styling: 103;
-/*Card Styling: 154;
-/*Media Queries: 259;
+/*Card Styling: 156;
+/*Media Queries: 256;
 
 /*Base Styling*/
 body {
@@ -207,7 +207,7 @@ article {
   border: none;
   height: 30px;
   outline: none;
-  margin-left: 1%;
+  margin-left: 3px;
   width: 30px;
 }
 

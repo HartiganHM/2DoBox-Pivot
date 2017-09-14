@@ -3,7 +3,7 @@
 /*Card Control Buttons and Fields: 14;
 /*Header Styling: 103;
 /*Card Styling: 154;
-/*Media Queries: ;
+/*Media Queries: 259;
 
 /*Base Styling*/
 body {
@@ -108,7 +108,6 @@ button:disabled:hover {
 .count {
   color: #EAE8FF;
   display: flex;
-  font-family: 'Open Sans', Arial, sans-serif;
   font-size: 12px;
   height: 25px;
   justify-content: flex-end;
@@ -226,7 +225,6 @@ article {
 }
 
 .level {
-  font-weight: normal;
   margin-left: 6px;
 }
 
@@ -234,7 +232,6 @@ article {
 .level {
   color: #170019;
   display: inline-block;
-  font-family: "Open Sans";
 }
 
 .quality {

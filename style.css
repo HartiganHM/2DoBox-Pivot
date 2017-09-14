@@ -1,8 +1,8 @@
 /****INDEX****/
 /*Base Stylings: 8;
 /*Card Control Buttons and Fields: 14;
-/*Header Styling: ;
-/*Card Styling: ;
+/*Header Styling: 103;
+/*Card Styling: 154;
 /*Media Queries: ;
 
 /*Base Styling*/
@@ -311,15 +311,7 @@ article {
     text-align: center;
   }
 
-  .importance {
-    font-size: 12px;
-    margin: 1px;
-    padding: 8px 4px;
-  }
-
   .importance-btns {
-    display: flex;
-    margin: 10px auto;
     width: 300px;
   }
 }
@@ -342,20 +334,7 @@ article {
     width: 240px;
   }
 
-  .completed {
-    float: none;
-    text-align: center;
-  }
-
-  .importance {
-    font-size: 12px;
-    margin: 1px;
-    padding: 8px 4px;
-  }
-
   .importance-btns {
-    display: flex;
-    margin: 10px auto;
     width: 250px;
   }
 }

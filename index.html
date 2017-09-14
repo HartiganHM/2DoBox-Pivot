@@ -9,18 +9,22 @@
   </head>
 
   <body>
-    <header>
+    <header role="banner">
        <h1><span class="accent-color">2Do</span>Box</h1>
-        <form>
-          <input type="text" class="user-title" placeholder="Title">
+        <form role="form">
+          <label for="input-name"></label>
+          <input id="input-name" type="text" class="user-title" placeholder="Title" role="textbox">
           <span class="count"><p class="title-chars">0</p><p>/120</p></span>
-          <textarea type="text" class="user-body" placeholder="Task"></textarea>
+          <label for="input-body"></label>
+          <textarea id="input-body" type="text" class="user-body" placeholder="Task" role="textbox" aria-multiline="true">
+            
+          </textarea>
           <span class="count"><p class="body-chars">0</p><p>/120</p></span>
           <button class="save-button" disabled>save</button>
         </form>
     </header>
     
-    <section class="card-controls">
+    <section class="card-controls" role="contentinfo">
       <input class="search" placeholder="Filter">
       <button class="clear-all-button" disabled>clear all 2Dos</button>
       <button class="show-completed-button">show completed</button>
@@ -33,8 +37,7 @@
       </div>
     </section>
 
-    <main class="bottom-container">
-
+    <main class="bottom-container" role="main">
 
     </main>
     <button class="show-more" >show more to-dos</button>
@@ -45,11 +48,3 @@
 </html>
 
 
-<!-- changed section .top-container to header -->
-<!-- took away class .title from h1 -->
-<!-- changed class .title-box-styling to .accent-color -->
-<!-- changed input-title to card-title -->
-<!-- changed input-body to card-body -->
-<!-- changed search-engine to search -->
-<!-- changed section .bottom-container to main -->
-<!-- add in local jquery file -->

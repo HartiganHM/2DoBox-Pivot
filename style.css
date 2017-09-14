@@ -6,10 +6,6 @@
 /*Media Queries: ;
 
 /*Base Styling*/
-* {
-  outline-color: #00A79D;
-}
-
 body {
   font-family: 'Open Sans', Arial, serif;
   margin: auto;
@@ -227,7 +223,7 @@ article {
 }
 
  h2 {
-  color: #6D6E71;
+  color: #170019;
   display: inline-block;
   font-family: "Roboto Slab", Georgia, serif;
   font-size: 24px;
@@ -241,7 +237,7 @@ article {
 
 .quality, 
 .level {
-  color: #6D6E71;
+  color: #170019;
   display: inline-block;
   font-family: "Open Sans";
 }

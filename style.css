@@ -280,6 +280,16 @@ article {
     width: 265px;
   }
 
+  .card-controls {
+    width: 265px;
+  }
+
+  .title-chars,
+  .body-chars,
+  .count {
+    display: none;
+  }
+
   h1 {
     font-size: 33px;
     font-weight: bold;
@@ -300,7 +310,8 @@ article {
     width: 225px;
   }
 
-  .clear-all-button {
+  .clear-all-button,
+  .show-completed-button {
     display: block;
     font-size: 100%;
     height: 30.6px;
@@ -338,5 +349,18 @@ article {
     height: 30px;
     padding-left: 8px;
     width: 265px;
+  }
+
+  .importance-btns {
+    display: block;
+    width: 280px;
+  }
+
+  .importance {
+    font-size: 12px;
+    margin: 1px;
+    padding: 8px 4px;
+    width: 50px;
+
   }
 }

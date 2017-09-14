@@ -168,7 +168,7 @@ article {
   font-size: 17px;
   line-height: 130%;
   margin: 40px 5px;
-  width: 500px;
+  width: 490px;
 }
 
 .completed {
@@ -262,31 +262,21 @@ article {
 
 /****Media Queries****/
 @media (max-width:600px) {
-  article {
-    width: 400px;
-  }
-
+  article,
   .card-controls,
-  .count {
-    width: 400px;
-  }
-
   .clear-all-button,
-  .show-completed-button {
-    display: block;
-    font-size: 100%;
-    height: 30.6px;
-    margin-top: 20px;
+  .count,
+  input,
+  .save-button,
+  .search,
+  .show-completed-button,
+  .show-more,
+  textarea {
     width: 400px;
   }
 
-  input,
-  textarea {
-    box-sizing: border-box;
-    display: block;
-    font-weight: 400;
-    padding-left: 8px;
-    width: 400px;
+  .card-body {
+    width: 390px;
   }
 
   .importance {
@@ -297,24 +287,69 @@ article {
 
   .importance-btns {
     display: flex;
+    margin: 10px auto;
     width: 400px;
   }
+}
 
-  .search {
-    margin-top: 20px;
-    width: 400px;
+@media (max-width:450px) {
+  article,
+  .card-controls,
+  .clear-all-button,
+  .count,
+  input,
+  .save-button,
+  .search,
+  .show-completed-button,
+  .show-more,
+  textarea {
+    width: 300px;
   }
 
-  .save-button {
-    display: block;
-    font-size: 20px;
-    height: 40px;
-    width: 400px;
+  .card-body {
+    width: 290px;
   }
 
-  .user-body {
-    font-size: 21px;
-    margin-top: 10px;
-    width: 400px;
+  .importance {
+    font-size: 12px;
+    margin: 1px;
+    padding: 8px 4px;
+  }
+
+  .importance-btns {
+    display: flex;
+    margin: 10px auto;
+    width: 300px;
+  }
+}
+
+@media (max-width:350px) {
+  article,
+  .card-controls,
+  .clear-all-button,
+  .count,
+  input,
+  .save-button,
+  .search,
+  .show-completed-button,
+  .show-more,
+  textarea {
+    width: 250px;
+  }
+
+  .card-body {
+    width: 240px;
+  }
+
+  .importance {
+    font-size: 12px;
+    margin: 1px;
+    padding: 8px 4px;
+  }
+
+  .importance-btns {
+    display: flex;
+    margin: 10px auto;
+    width: 250px;
   }
 }

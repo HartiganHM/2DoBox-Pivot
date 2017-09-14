@@ -1,6 +1,6 @@
 /****INDEX****/
 /*Base Stylings: 8;
-/*Card Control Buttons and Fields: 18;
+/*Card Control Buttons and Fields: 14;
 /*Header Styling: ;
 /*Card Styling: ;
 /*Media Queries: ;
@@ -103,8 +103,6 @@ button:disabled:hover {
 /*Header Styling*/
 .accent-color {
   color: #CE3E40;
-  font: "Roboto Slab";
-  text-align: center;
 }
 
 .count {
@@ -138,12 +136,9 @@ textarea {
   border: thin solid lightgrey;
   box-sizing: border-box;
   display: block;
-  font-size: 120%;
-  font-weight: 400;
-  height: 28px;
+  font-size: 18px;
   margin: 5px auto;
   padding-left: 8px;
-  resize: none;
   width: 500px;
 }
 

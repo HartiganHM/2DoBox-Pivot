@@ -134,6 +134,7 @@ header {
 
 input,
 textarea {
+  background: #FFF;
   border: thin solid lightgrey;
   box-sizing: border-box;
   display: block;
@@ -310,6 +311,10 @@ article {
     width: 290px;
   }
 
+  .completed {
+    float: none;
+  }
+
   .importance {
     font-size: 12px;
     margin: 1px;
@@ -339,6 +344,10 @@ article {
 
   .card-body {
     width: 240px;
+  }
+
+  .completed {
+    float: none;
   }
 
   .importance {

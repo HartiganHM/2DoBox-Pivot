@@ -1,3 +1,10 @@
+/****INDEX****/
+/*Base Stylings: 8;
+/*Buttons: 18;
+/*Header Styling: ;
+/*Card Styling: ;
+/*Media Queries: ;
+
 /*Base Styling*/
 * {
   outline-color: #00A79D;
@@ -8,99 +15,15 @@ body {
   min-width: 320px;
 }
 
-/*Header Styling*/
-header {
-  background: #E5F3F2;
-  padding: 10px;
-}
-
-h1 {
-  color: #6D6E71;
-  font-family: "Roboto Slab";
-  font-size: 45px;
-  margin: 0;
-  text-align: center;
-}
-
-.accent-color {
-  color: #00A79D;
-  font: "Roboto Slab";
-  text-align: center;
-}
-
-input,
-textarea {
-  border: thin solid lightgrey;
-  display: block;
-  font-size: 120%;
-  font-weight: 400;
-  height: 28px;
-  margin: 5px auto;
-  padding-left: 8px;
-  resize: none;
-  width: 500px;
-}
-
-p {
-  margin: 5px 0;
-}
-
-.count {
-  display: flex;
-  font-size: 12px;
-  height: 25px;
-  justify-content: flex-end;
-  margin: 0 auto;
-  text-align: right;
-  width: 500px;
-}
-
-::placeholder {
-  color: #A9B2B2;
-  filter: blur(.5px);
-}
-
-.save-button, 
-.show-more,
-.importance {
-  background: #00A79D;
-  border: none;
-  color: #FFFFFF;
-  display: block;
-  font-size: 100%;
-  height: 30.6px;
-  margin: 5px auto;
-  outline: none;
-  width: 512px;
-}
-
-.show-more {
-  margin: 40px auto;
-  display: none;
-}
-
-button:disabled {
-  background: #d3d3d3;
-}
-
+/*Buttons*/
+button:disabled,
 button:disabled:hover {
   background: #d3d3d3;
+  opacity: 0.5;
 }
 
-.save-button:hover,
-.show-more:hover {
-  background: #045E55;
-}
-
-/*.card-controls Section*/
 .card-controls {
   margin: 0 auto;
-  width: 512px;
-}
-
-.search{
-  margin: auto;
-  margin-top: 20px;
   width: 500px;
 }
 
@@ -115,7 +38,7 @@ button:disabled:hover {
   margin: auto;
   margin-top: 20px;
   outline: none;
-  width: 512px;
+  width: 500px;
 }
 
 .clear-all-button:hover {
@@ -123,9 +46,19 @@ button:disabled:hover {
   color: #FFFFFF;
 }
 
-.importance-btns {
-  margin: 20px auto;
-  width: 342px;
+.importance,
+.save-button, 
+.show-more {
+  background: #D66068;
+  border: none;
+  color: #FFFFFF;
+  display: block;
+  font-size: 100%;
+  height: 30.6px;
+  margin: 5px auto;
+  outline: none;
+  transition: 1s background;
+  width: 500px;
 }
 
 .importance {
@@ -133,43 +66,89 @@ button:disabled:hover {
   width: 65px;
 }
 
-/*Main Section*/
- h2 {
-  color: #6D6E71;
-  display: inline-block;
-  font-family: "Roboto Slab";
-  margin-bottom: 0px;
+.importance-btns {
+  margin: 20px auto;
+  width: 342px;
+}
+
+.save-button:hover,
+.show-more:hover {
+  background: #CE3D47;
+  box-shadow: 
+  transition: 1s background;
+}
+
+.search{
   margin: auto;
-  margin-top:  20px;
-  width: 470px;
+  margin-top: 20px;
+  width: 500px;
 }
 
-.delete {
-  background-color: transparent;
-  background-image: url(images/delete.svg);
-  border: none;
-  height: 30px;
-  margin-top: 4px;
-  margin-left: 4px;
-  outline: none;
-  width: 30px;
+.show-more {
+  margin: 40px auto;
+  display: none;
 }
 
-.delete:hover {
-  background-image: url(images/delete-hover.svg);
+/*Header Styling*/
+.accent-color {
+  color: #CE3E40;
+  font: "Roboto Slab";
+  text-align: center;
 }
 
-.up-vote {
-  background-color: transparent;
-  background-image: url(images/upvote.svg);
-  border: none;
-  height: 30px;
-  outline: none;
-  width: 30px;
+.count {
+  color: #EAE8FF;
+  display: flex;
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-size: 12px;
+  height: 25px;
+  justify-content: flex-end;
+  margin: 0 auto;
+  text-align: right;
+  width: 500px;
 }
 
-.up-vote:hover {
-  background-image: url(images/upvote-hover.svg);
+h1 {
+  color: #A1ADB7;
+  font-family: "Roboto Slab", Georgia, serif;
+  font-size: 45px;
+  margin: 0;
+  text-align: center;
+}
+
+header {
+  background: #170019;
+  padding: 10px;
+}
+
+input,
+textarea {
+  border: thin solid lightgrey;
+  box-sizing: border-box;
+  display: block;
+  font-size: 120%;
+  font-weight: 400;
+  height: 28px;
+  margin: 5px auto;
+  padding-left: 8px;
+  resize: none;
+  width: 500px;
+}
+
+p {
+  margin: 5px 0;
+}
+
+::placeholder {
+  color: #A9B2B2;
+  filter: blur(.5px);
+}
+
+/****Card Styling****/
+article {
+  border-bottom: thin solid lightgrey;
+  margin: auto;
+  width: 500px;
 }
 
 .card-body {
@@ -177,34 +156,7 @@ button:disabled:hover {
   font-family: "Open Sans";
   font-size: 18px;
   margin-top: 10px;
-  width: 512px;
-}
-
-.down-vote {
-  background-color: transparent;
-  background-image: url(images/downvote.svg);
-  border: none;
-  height: 30px;
-  outline: none;
-  margin-left: 1%;
-  width: 30px;
-}
-
-.down-vote:hover{
-  background-image: url(images/downvote-hover.svg);
-}
-
-.quality, 
-.level {
-  color: #6D6E71;
-  display: inline-block;
-  font-family: "Open Sans";
-  margin-top: 0;
-}
-
-.quality {
-  font-weight: bold;
-  margin-left: 12px;
+  width: 500px;
 }
 
 .completed {
@@ -231,17 +183,77 @@ button:disabled:hover {
   transition: opacity 1s;
 }
 
+.delete {
+  background-color: transparent;
+  background-image: url(images/delete.svg);
+  border: none;
+  height: 30px;
+  margin-top: 4px;
+  margin-left: 4px;
+  outline: none;
+  width: 30px;
+}
+
+.delete:hover {
+  background-image: url(images/delete-hover.svg);
+}
+
+.down-vote {
+  background-color: transparent;
+  background-image: url(images/downvote.svg);
+  border: none;
+  height: 30px;
+  outline: none;
+  margin-left: 1%;
+  width: 30px;
+}
+
+.down-vote:hover{
+  background-image: url(images/downvote-hover.svg);
+}
+
+ h2 {
+  color: #6D6E71;
+  display: inline-block;
+  font-family: "Roboto Slab";
+  margin-bottom: 0px;
+  margin: auto;
+  margin-top:  20px;
+  width: 470px;
+}
+
 .level {
   font-weight: normal;
   margin-left: 6px;
 }
 
-article {
-  border-bottom: thin solid lightgrey;
-  margin: auto;
-  width: 512px;
+.quality, 
+.level {
+  color: #6D6E71;
+  display: inline-block;
+  font-family: "Open Sans";
+  margin-top: 0;
 }
 
+.quality {
+  font-weight: bold;
+  margin-left: 12px;
+}
+
+.up-vote {
+  background-color: transparent;
+  background-image: url(images/upvote.svg);
+  border: none;
+  height: 30px;
+  outline: none;
+  width: 30px;
+}
+
+.up-vote:hover {
+  background-image: url(images/upvote-hover.svg);
+}
+
+/****Media Queries****/
 @media (max-width:600px) {
   html {
     height: 100%;

@@ -74,8 +74,9 @@ button:disabled:hover {
 .save-button:hover,
 .show-more:hover {
   background: #CE3D47;
-  box-shadow: 
-  transition: 1s background;
+  box-shadow: 0 0 10px #EAE8FF;
+  transition: background 1s, box-shadow 1s, width 1s;
+  width: 510px;
 }
 
 .search{

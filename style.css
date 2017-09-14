@@ -1,6 +1,6 @@
 /****INDEX****/
 /*Base Stylings: 8;
-/*Buttons: 18;
+/*Card Control Buttons and Fields: 18;
 /*Header Styling: ;
 /*Card Styling: ;
 /*Media Queries: ;
@@ -11,11 +11,12 @@
 }
 
 body {
+  font-family: 'Open Sans', Arial, serif;
   margin: auto;
   min-width: 320px;
 }
 
-/*Buttons*/
+/*Card Control Buttons and Fields*/
 button:disabled,
 button:disabled:hover {
   background: #d3d3d3;
@@ -23,7 +24,7 @@ button:disabled:hover {
 }
 
 .card-controls {
-  margin: 0 auto;
+  margin: 10px auto;
   width: 500px;
 }
 
@@ -148,15 +149,15 @@ p {
 /****Card Styling****/
 article {
   border-bottom: thin solid lightgrey;
-  margin: auto;
+  margin: 10px auto;
   width: 500px;
 }
 
 .card-body {
-  color: #6D6E71;
-  font-family: "Open Sans";
-  font-size: 18px;
-  margin-top: 10px;
+  color: #939598;
+  font-size: 17px;
+  line-height: 130%;
+  margin: 20px 5px;
   width: 500px;
 }
 
@@ -188,10 +189,9 @@ article {
   background-color: transparent;
   background-image: url(images/delete.svg);
   border: none;
+  float: right;
   height: 30px;
-  margin-top: 4px;
-  margin-left: 4px;
-  outline: none;
+  margin: 20px 0;
   width: 30px;
 }
 
@@ -216,11 +216,9 @@ article {
  h2 {
   color: #6D6E71;
   display: inline-block;
-  font-family: "Roboto Slab";
-  margin-bottom: 0px;
-  margin: auto;
-  margin-top:  20px;
-  width: 470px;
+  font-family: "Roboto Slab", Georgia, serif;
+  font-size: 24px;
+  margin: 20px auto;
 }
 
 .level {

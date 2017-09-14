@@ -1,9 +1,9 @@
 /****INDEX****/
 /*Base Stylings: 8;
-/*Card Control Buttons and Fields: 18;
-/*Header Styling: ;
-/*Card Styling: ;
-/*Media Queries: ;
+/*Card Control Buttons and Fields: 14;
+/*Header Styling: 103;
+/*Card Styling: 156;
+/*Media Queries: 256;
 
 /*Base Styling*/
 body {
@@ -103,14 +103,11 @@ button:disabled:hover {
 /*Header Styling*/
 .accent-color {
   color: #CE3E40;
-  font: "Roboto Slab";
-  text-align: center;
 }
 
 .count {
   color: #EAE8FF;
   display: flex;
-  font-family: 'Open Sans', Arial, sans-serif;
   font-size: 12px;
   height: 25px;
   justify-content: flex-end;
@@ -138,12 +135,9 @@ textarea {
   border: thin solid lightgrey;
   box-sizing: border-box;
   display: block;
-  font-size: 120%;
-  font-weight: 400;
-  height: 28px;
+  font-size: 18px;
   margin: 5px auto;
   padding-left: 8px;
-  resize: none;
   width: 500px;
 }
 
@@ -213,7 +207,7 @@ article {
   border: none;
   height: 30px;
   outline: none;
-  margin-left: 1%;
+  margin-left: 3px;
   width: 30px;
 }
 
@@ -231,7 +225,6 @@ article {
 }
 
 .level {
-  font-weight: normal;
   margin-left: 6px;
 }
 
@@ -239,7 +232,6 @@ article {
 .level {
   color: #170019;
   display: inline-block;
-  font-family: "Open Sans";
 }
 
 .quality {
@@ -316,15 +308,7 @@ article {
     text-align: center;
   }
 
-  .importance {
-    font-size: 12px;
-    margin: 1px;
-    padding: 8px 4px;
-  }
-
   .importance-btns {
-    display: flex;
-    margin: 10px auto;
     width: 300px;
   }
 }
@@ -347,20 +331,7 @@ article {
     width: 240px;
   }
 
-  .completed {
-    float: none;
-    text-align: center;
-  }
-
-  .importance {
-    font-size: 12px;
-    margin: 1px;
-    padding: 8px 4px;
-  }
-
   .importance-btns {
-    display: flex;
-    margin: 10px auto;
     width: 250px;
   }
 }

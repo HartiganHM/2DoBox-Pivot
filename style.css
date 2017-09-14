@@ -8,8 +8,7 @@
 /*Base Styling*/
 body {
   font-family: 'Open Sans', Arial, serif;
-  margin: auto;
-  min-width: 320px;
+  margin: 0;
 }
 
 /*Card Control Buttons and Fields*/
@@ -268,22 +267,12 @@ article {
     width: 100%;
   }
 
-  header {
-    height: 300px;
-  }
-
-  article {
-    width: 265px;
-  }
-
   .card-controls {
-    width: 265px;
+    width: 250px;
   }
 
-  .title-chars,
-  .body-chars,
   .count {
-    display: none;
+    width: 250px;
   }
 
   h1 {
@@ -296,7 +285,7 @@ article {
   .user-body {
     font-size: 21px;
     margin-top: 10px;
-    width: 265px;
+    width: 250px;
   }
 
   h2 {
@@ -312,19 +301,19 @@ article {
     font-size: 100%;
     height: 30.6px;
     margin-top: 20px;
-    width: 276px;
+    width: 250px;
   }
 
   .search {
     margin-top: 20px;
-    width: 265px;
+    width: 250px;
   }
 
   .save-button {
     display: block;
     font-size: 20px;
     height: 40px;
-    width: 276px;
+    width: 250px;
   }
 
   .card-body {
@@ -335,16 +324,18 @@ article {
     margin-bottom: 12px;
     margin-top: 12px;
     padding-left: 8px;
-    width: 265px;
+    width: 250px;
   }
 
-  input {
+  input,
+  textarea {
+    box-sizing: border-box;
     display: block;
     font-size: 120%;
     font-weight: 400;
     height: 30px;
     padding-left: 8px;
-    width: 265px;
+    width: 250px;
   }
 
   .importance-btns {

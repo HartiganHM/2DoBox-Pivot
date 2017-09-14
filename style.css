@@ -29,7 +29,8 @@ button:disabled:hover {
 }
 
 .clear-all-button,
-.show-completed-button {
+.show-completed-button,
+.show-more {
   background: #6D6E71;
   border: none;
   color: #FFFFFF;
@@ -40,14 +41,15 @@ button:disabled:hover {
   width: 500px;
 }
 
-.clear-all-button:hover {
+.clear-all-button:hover,
+.show-completed-button:hover,
+.show-more:hover {
   background: #CE3D47;
   opacity: 1.0;
   transition: background 0.5s;
 }
 
-.save-button,
-.show-more {
+.save-button {
   background: #D66068;
   border: none;
   color: #FFFFFF;
@@ -87,8 +89,7 @@ button:disabled:hover {
   width: 500px;
 }
 
-.save-button:hover,
-.show-more:hover {
+.save-button:hover {
   background: #CE3D47;
   box-shadow: 0 0 10px #EAE8FF;
   transition: background 0.5s, box-shadow 1s, width 1s;
@@ -188,6 +189,7 @@ article {
 
 .completed:hover {
   background-color: #39B54A;
+  transition: 0.5s background;
 }
 
 .completed-card {
@@ -206,6 +208,7 @@ article {
 
 .delete:hover {
   background-image: url(images/delete-hover.svg);
+  transition: 0.5s background-image;
 }
 
 .down-vote {
@@ -220,6 +223,7 @@ article {
 
 .down-vote:hover{
   background-image: url(images/downvote-hover.svg);
+  transition: 0.5s background-image;
 }
 
  h2 {
@@ -258,6 +262,7 @@ article {
 
 .up-vote:hover {
   background-image: url(images/upvote-hover.svg);
+  transition: 0.5s background-image;
 }
 
 /****Media Queries****/

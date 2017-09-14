@@ -227,6 +227,7 @@ article {
   display: inline-block;
   font-family: "Roboto Slab", Georgia, serif;
   font-size: 24px;
+  margin: 0;
 }
 
 .level {

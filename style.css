@@ -163,6 +163,7 @@ p {
 article {
   border-bottom: thin solid lightgrey;
   margin: 10px auto;
+  padding: 20px 0;
   width: 500px;
 }
 
@@ -170,22 +171,18 @@ article {
   color: #939598;
   font-size: 17px;
   line-height: 130%;
-  margin: 20px 5px;
+  margin: 40px 5px;
   width: 500px;
 }
 
 .completed {
   background-color: #D1D3D4;
-  border: 1px solid #FFF;
   border-radius: 20px;
   color: #FFF;
   cursor: default;
-  display: inline-block;
-  font-family: "Open Sans", Arial, sans-serif;
   font-size: 14px;
   float: right;
   height: 20px;
-  margin-top: 0;
   padding: 5px 5px;
 }
 
@@ -204,7 +201,6 @@ article {
   border: none;
   float: right;
   height: 30px;
-  margin: 20px 0;
   width: 30px;
 }
 
@@ -231,7 +227,6 @@ article {
   display: inline-block;
   font-family: "Roboto Slab", Georgia, serif;
   font-size: 24px;
-  margin: 20px auto;
 }
 
 .level {
@@ -244,7 +239,6 @@ article {
   color: #6D6E71;
   display: inline-block;
   font-family: "Open Sans";
-  margin-top: 0;
 }
 
 .quality {

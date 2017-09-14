@@ -6,14 +6,9 @@
 /*Media Queries: ;
 
 /*Base Styling*/
-* {
-  outline-color: #00A79D;
-}
-
 body {
   font-family: 'Open Sans', Arial, serif;
-  margin: auto;
-  min-width: 320px;
+  margin: 0;
 }
 
 /*Card Control Buttons and Fields*/
@@ -29,7 +24,8 @@ button:disabled:hover {
 }
 
 .clear-all-button,
-.show-completed-button {
+.show-completed-button,
+.show-more {
   background: #6D6E71;
   border: none;
   color: #FFFFFF;
@@ -40,14 +36,15 @@ button:disabled:hover {
   width: 500px;
 }
 
-.clear-all-button:hover {
+.clear-all-button:hover,
+.show-completed-button:hover,
+.show-more:hover {
   background: #CE3D47;
   opacity: 1.0;
   transition: background 0.5s;
 }
 
-.save-button,
-.show-more {
+.save-button {
   background: #D66068;
   border: none;
   color: #FFFFFF;
@@ -87,8 +84,7 @@ button:disabled:hover {
   width: 500px;
 }
 
-.save-button:hover,
-.show-more:hover {
+.save-button:hover {
   background: #CE3D47;
   box-shadow: 0 0 10px #EAE8FF;
   transition: background 0.5s, box-shadow 1s, width 1s;
@@ -138,6 +134,7 @@ header {
 
 input,
 textarea {
+  background: #FFF;
   border: thin solid lightgrey;
   box-sizing: border-box;
   display: block;
@@ -172,7 +169,7 @@ article {
   font-size: 17px;
   line-height: 130%;
   margin: 40px 5px;
-  width: 500px;
+  width: 490px;
 }
 
 .completed {
@@ -188,6 +185,7 @@ article {
 
 .completed:hover {
   background-color: #39B54A;
+  transition: 0.5s background;
 }
 
 .completed-card {
@@ -206,6 +204,7 @@ article {
 
 .delete:hover {
   background-image: url(images/delete-hover.svg);
+  transition: 0.5s background-image;
 }
 
 .down-vote {
@@ -220,10 +219,11 @@ article {
 
 .down-vote:hover{
   background-image: url(images/downvote-hover.svg);
+  transition: 0.5s background-image;
 }
 
  h2 {
-  color: #6D6E71;
+  color: #170019;
   display: inline-block;
   font-family: "Roboto Slab", Georgia, serif;
   font-size: 24px;
@@ -237,7 +237,7 @@ article {
 
 .quality, 
 .level {
-  color: #6D6E71;
+  color: #170019;
   display: inline-block;
   font-family: "Open Sans";
 }
@@ -258,104 +258,109 @@ article {
 
 .up-vote:hover {
   background-image: url(images/upvote-hover.svg);
+  transition: 0.5s background-image;
 }
 
 /****Media Queries****/
 @media (max-width:600px) {
-  html {
-    height: 100%;
-    width: 100%;
-  }
-
-  header {
-    height: 300px;
-  }
-
-  article {
-    width: 265px;
-  }
-
-  .card-controls {
-    width: 265px;
-  }
-
-  .title-chars,
-  .body-chars,
-  .count {
-    display: none;
-  }
-
-  h1 {
-    font-size: 33px;
-    font-weight: bold;
-    padding-bottom: 16px;
-    padding-top: 30px;
-  }
-
-  .user-body {
-    font-size: 21px;
-    margin-top: 10px;
-    width: 265px;
-  }
-
-  h2 {
-    display: inline-block;
-    margin: auto;
-    margin-top: 25px;
-    width: 225px;
-  }
-
+  article,
+  .card-controls,
   .clear-all-button,
-  .show-completed-button {
-    display: block;
-    font-size: 100%;
-    height: 30.6px;
-    margin-top: 20px;
-    width: 276px;
-  }
-
-  .search {
-    margin-top: 20px;
-    width: 265px;
-  }
-
-  .save-button {
-    display: block;
-    font-size: 20px;
-    height: 40px;
-    width: 276px;
+  .count,
+  input,
+  .save-button,
+  .search,
+  .show-completed-button,
+  .show-more,
+  textarea {
+    width: 400px;
   }
 
   .card-body {
-    display: block;
-    height: 90px;
-    font-size: 120%;
-    font-weight: 400;
-    margin-bottom: 12px;
-    margin-top: 12px;
-    padding-left: 8px;
-    width: 265px;
-  }
-
-  input {
-    display: block;
-    font-size: 120%;
-    font-weight: 400;
-    height: 30px;
-    padding-left: 8px;
-    width: 265px;
-  }
-
-  .importance-btns {
-    display: block;
-    width: 280px;
+    width: 390px;
   }
 
   .importance {
     font-size: 12px;
     margin: 1px;
     padding: 8px 4px;
-    width: 50px;
+  }
 
+  .importance-btns {
+    display: flex;
+    margin: 10px auto;
+    width: 400px;
+  }
+}
+
+@media (max-width:450px) {
+  article,
+  .card-controls,
+  .clear-all-button,
+  .count,
+  input,
+  .save-button,
+  .search,
+  .show-completed-button,
+  .show-more,
+  textarea {
+    width: 300px;
+  }
+
+  .card-body {
+    width: 290px;
+  }
+
+  .completed {
+    float: none;
+    text-align: center;
+  }
+
+  .importance {
+    font-size: 12px;
+    margin: 1px;
+    padding: 8px 4px;
+  }
+
+  .importance-btns {
+    display: flex;
+    margin: 10px auto;
+    width: 300px;
+  }
+}
+
+@media (max-width:350px) {
+  article,
+  .card-controls,
+  .clear-all-button,
+  .count,
+  input,
+  .save-button,
+  .search,
+  .show-completed-button,
+  .show-more,
+  textarea {
+    width: 250px;
+  }
+
+  .card-body {
+    width: 240px;
+  }
+
+  .completed {
+    float: none;
+    text-align: center;
+  }
+
+  .importance {
+    font-size: 12px;
+    margin: 1px;
+    padding: 8px 4px;
+  }
+
+  .importance-btns {
+    display: flex;
+    margin: 10px auto;
+    width: 250px;
   }
 }

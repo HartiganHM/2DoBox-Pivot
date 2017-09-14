@@ -1,100 +1,30 @@
+/****INDEX****/
+/*Base Stylings: 8;
+/*Card Control Buttons and Fields: 18;
+/*Header Styling: ;
+/*Card Styling: ;
+/*Media Queries: ;
+
 /*Base Styling*/
 * {
   outline-color: #00A79D;
 }
 
 body {
+  font-family: 'Open Sans', Arial, serif;
   margin: auto;
   min-width: 320px;
 }
 
-/*Header Styling*/
-header {
-  background: #E5F3F2;
-  height: 316px;
-}
-
-h1 {
-  color: #6D6E71;
-  font-family: "Roboto Slab";
-  font-size: 45px;
-  font-weight: bold;
-  margin-bottom: 0;
-  margin-top: 0;
-  padding-bottom: 20px;
-  padding-top: 30px;
-  text-align: center;
-}
-
-.accent-color {
-  color: #00A79D;
-  font: "Roboto Slab";
-  text-align: center;
-}
-
-input,
-textarea {
-  border: thin solid lightgrey;
-  display: block;
-  font-size: 120%;
-  font-weight: 400;
-  height: 28px;
-  margin: 12px auto;
-  padding-left: 8px;
-  resize: none;
-  width: 500px;
-}
-
-/*textarea {
-  height: 100px;
-}*/
-
-::placeholder {
-  color: #A9B2B2;
-  filter: blur(.5px);
-}
-
-.save-button, 
-.show-more,
-.importance {
-  background: #00A79D;
-  border: none;
-  color: #FFFFFF;
-  display: block;
-  font-size: 100%;
-  height: 30.6px;
-  margin: auto;
-  outline: none;
-  width: 512px;
-}
-
-.show-more {
-  margin: 40px auto;
-  display: none;
-}
-
-button:disabled {
-  background: #d3d3d3;
-}
-
+/*Card Control Buttons and Fields*/
+button:disabled,
 button:disabled:hover {
-  background: #d3d3d3;
+  background: #D3D3D3;
+  opacity: 0.5;
 }
 
-.save-button:hover,
-.show-more:hover {
-  background: #045E55;
-}
-
-/*.card-controls Section*/
 .card-controls {
-  margin: 0 auto;
-  width: 512px;
-}
-
-.search{
-  margin: auto;
-  margin-top: 20px;
+  margin: 20px auto;
   width: 500px;
 }
 
@@ -103,102 +33,145 @@ button:disabled:hover {
   background: #6D6E71;
   border: none;
   color: #FFFFFF;
-  display: block;
-  font-size: 100%;
-  height: 30.6px;
-  margin: auto;
-  margin-top: 20px;
-  outline: none;
-  width: 512px;
+  font-size: 16px;
+  margin: 10px auto;
+  opacity: 0.5;
+  padding: 8px;
+  width: 500px;
 }
 
 .clear-all-button:hover {
-  background: #EF4136;
-  color: #FFFFFF;
+  background: #CE3D47;
+  opacity: 1.0;
+  transition: background 0.5s;
 }
 
-.importance-btns {
-  margin: 20px auto;
-  width: 342px;
+.save-button,
+.show-more {
+  background: #D66068;
+  border: none;
+  color: #FFFFFF;
+  display: block;
+  font-size: 16px;
+  margin: 5px auto;
+  padding: 8px;
+  transition: 0.5s background;
+  width: 500px;
+}
+
+.save-button:disabled:hover {
+  box-shadow: none;
+  width: 500px;
 }
 
 .importance {
-  display: inline-block;
-  width: 65px;
-}
-
-/*Main Section*/
- h2 {
-  color: #6D6E71;
-  display: inline-block;
-  font-family: "Roboto Slab";
-  margin-bottom: 0px;
-  margin: auto;
-  margin-top:  20px;
-  width: 470px;
-}
-
-.delete {
-  background-color: transparent;
-  background-image: url(images/delete.svg);
+  background: #6D6E71;
   border: none;
-  height: 30px;
-  margin-top: 4px;
-  margin-left: 4px;
-  outline: none;
-  width: 30px;
+  color: #FFFFFF;
+  font-size: 16px;
+  opacity: 0.5;
+  padding: 8px;
+  margin: 5px;
+  width: 100px;
 }
 
-.delete:hover {
-  background-image: url(images/delete-hover.svg);
+.importance:hover {
+  background: #D66068;
+  opacity: 1.0;
+  transition: 0.5s background, 0.5s opacity;
 }
 
-.up-vote {
-  background-color: transparent;
-  background-image: url(images/upvote.svg);
-  border: none;
-  height: 30px;
-  outline: none;
-  width: 30px;
+.importance-btns {
+  display: flex;
+  margin: 0 auto;
+  width: 500px;
 }
 
-.up-vote:hover {
-  background-image: url(images/upvote-hover.svg);
+.save-button:hover,
+.show-more:hover {
+  background: #CE3D47;
+  box-shadow: 0 0 10px #EAE8FF;
+  transition: background 0.5s, box-shadow 1s, width 1s;
+  width: 510px;
+}
+
+.search{
+  width: 500px;
+}
+
+.show-more {
+  margin: 40px auto;
+  display: none;
+}
+
+/*Header Styling*/
+.accent-color {
+  color: #CE3E40;
+  font: "Roboto Slab";
+  text-align: center;
+}
+
+.count {
+  color: #EAE8FF;
+  display: flex;
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-size: 12px;
+  height: 25px;
+  justify-content: flex-end;
+  margin: 0 auto;
+  text-align: right;
+  width: 500px;
+}
+
+h1 {
+  color: #A1ADB7;
+  font-family: "Roboto Slab", Georgia, serif;
+  font-size: 45px;
+  margin: 0;
+  text-align: center;
+}
+
+header {
+  background: #170019;
+  padding: 10px;
+}
+
+input,
+textarea {
+  border: thin solid lightgrey;
+  box-sizing: border-box;
+  display: block;
+  font-size: 120%;
+  font-weight: 400;
+  height: 28px;
+  margin: 5px auto;
+  padding-left: 8px;
+  resize: none;
+  width: 500px;
+}
+
+p {
+  margin: 5px 0;
+}
+
+::placeholder {
+  color: #A9B2B2;
+  filter: blur(.5px);
+}
+
+/****Card Styling****/
+article {
+  border-bottom: thin solid lightgrey;
+  margin: 10px auto;
+  width: 500px;
 }
 
 .card-body {
-  color: #6D6E71;
-  font-family: "Open Sans";
-  font-size: 18px;
-  margin-top: 10px;
-  width: 512px;
-}
-
-.down-vote {
-  background-color: transparent;
-  background-image: url(images/downvote.svg);
-  border: none;
-  height: 30px;
-  outline: none;
-  margin-left: 1%;
-  width: 30px;
-}
-
-.down-vote:hover{
-  background-image: url(images/downvote-hover.svg);
-}
-
-.quality, 
-.level {
-  color: #6D6E71;
-  display: inline-block;
-  font-family: "Open Sans";
-  margin-top: 0;
-}
-
-.quality {
-  font-weight: bold;
-  margin-left: 12px;
+  color: #939598;
+  font-size: 17px;
+  line-height: 130%;
+  margin: 20px 5px;
+  width: 500px;
 }
 
 .completed {
@@ -225,17 +198,74 @@ button:disabled:hover {
   transition: opacity 1s;
 }
 
+.delete {
+  background-color: transparent;
+  background-image: url(images/delete.svg);
+  border: none;
+  float: right;
+  height: 30px;
+  margin: 20px 0;
+  width: 30px;
+}
+
+.delete:hover {
+  background-image: url(images/delete-hover.svg);
+}
+
+.down-vote {
+  background-color: transparent;
+  background-image: url(images/downvote.svg);
+  border: none;
+  height: 30px;
+  outline: none;
+  margin-left: 1%;
+  width: 30px;
+}
+
+.down-vote:hover{
+  background-image: url(images/downvote-hover.svg);
+}
+
+ h2 {
+  color: #6D6E71;
+  display: inline-block;
+  font-family: "Roboto Slab", Georgia, serif;
+  font-size: 24px;
+  margin: 20px auto;
+}
+
 .level {
   font-weight: normal;
   margin-left: 6px;
 }
 
-article {
-  border-bottom: thin solid lightgrey;
-  margin: auto;
-  width: 512px;
+.quality, 
+.level {
+  color: #6D6E71;
+  display: inline-block;
+  font-family: "Open Sans";
+  margin-top: 0;
 }
 
+.quality {
+  font-weight: bold;
+  margin-left: 12px;
+}
+
+.up-vote {
+  background-color: transparent;
+  background-image: url(images/upvote.svg);
+  border: none;
+  height: 30px;
+  outline: none;
+  width: 30px;
+}
+
+.up-vote:hover {
+  background-image: url(images/upvote-hover.svg);
+}
+
+/****Media Queries****/
 @media (max-width:600px) {
   html {
     height: 100%;

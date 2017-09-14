@@ -313,6 +313,7 @@ article {
 
   .completed {
     float: none;
+    text-align: center;
   }
 
   .importance {
@@ -348,6 +349,7 @@ article {
 
   .completed {
     float: none;
+    text-align: center;
   }
 
   .importance {

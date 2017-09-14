@@ -262,9 +262,15 @@ article {
 
 /****Media Queries****/
 @media (max-width:600px) {
-  html {
-    height: 100%;
-    width: 100%;
+  .card-body {
+    display: block;
+    height: 90px;
+    font-size: 120%;
+    font-weight: 400;
+    margin-bottom: 12px;
+    margin-top: 12px;
+    padding-left: 8px;
+    width: 250px;
   }
 
   .card-controls {
@@ -275,17 +281,20 @@ article {
     width: 250px;
   }
 
+  .clear-all-button,
+  .show-completed-button {
+    display: block;
+    font-size: 100%;
+    height: 30.6px;
+    margin-top: 20px;
+    width: 250px;
+  }
+
   h1 {
     font-size: 33px;
     font-weight: bold;
     padding-bottom: 16px;
     padding-top: 30px;
-  }
-
-  .user-body {
-    font-size: 21px;
-    margin-top: 10px;
-    width: 250px;
   }
 
   h2 {
@@ -295,13 +304,32 @@ article {
     width: 225px;
   }
 
-  .clear-all-button,
-  .show-completed-button {
+  html {
+    height: 100%;
+    width: 100%;
+  }
+
+  input,
+  textarea {
+    box-sizing: border-box;
     display: block;
-    font-size: 100%;
-    height: 30.6px;
-    margin-top: 20px;
+    font-size: 120%;
+    font-weight: 400;
+    height: 30px;
+    padding-left: 8px;
     width: 250px;
+  }
+
+  .importance {
+    font-size: 12px;
+    margin: 1px;
+    padding: 8px 4px;
+    width: 50px;
+  }
+
+  .importance-btns {
+    display: block;
+    width: 280px;
   }
 
   .search {
@@ -316,38 +344,9 @@ article {
     width: 250px;
   }
 
-  .card-body {
-    display: block;
-    height: 90px;
-    font-size: 120%;
-    font-weight: 400;
-    margin-bottom: 12px;
-    margin-top: 12px;
-    padding-left: 8px;
+  .user-body {
+    font-size: 21px;
+    margin-top: 10px;
     width: 250px;
-  }
-
-  input,
-  textarea {
-    box-sizing: border-box;
-    display: block;
-    font-size: 120%;
-    font-weight: 400;
-    height: 30px;
-    padding-left: 8px;
-    width: 250px;
-  }
-
-  .importance-btns {
-    display: block;
-    width: 280px;
-  }
-
-  .importance {
-    font-size: 12px;
-    margin: 1px;
-    padding: 8px 4px;
-    width: 50px;
-
   }
 }

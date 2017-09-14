@@ -280,6 +280,16 @@ article {
     width: 265px;
   }
 
+  .card-controls {
+    width: 265px;
+  }
+
+  .title-chars,
+  .body-chars,
+  .count {
+    display: none;
+  }
+
   h1 {
     font-size: 33px;
     font-weight: bold;
